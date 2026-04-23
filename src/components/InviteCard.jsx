@@ -38,7 +38,7 @@ function InviteCard({ name }) {
       </h1>
 
       <p className="text-gray-600 mt-2">
-        You are invited to <span className="font-semibold">Rahul & Anjali's</span> wedding
+        You are invited to <span className="font-semibold">Johny & Beena's</span> wedding
       </p>
 
       {/* COUNTDOWN TITLE */}
