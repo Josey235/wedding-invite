@@ -4,15 +4,8 @@ import { supabase } from "../supabase";
 function Dashboard() {
   const [name, setName] = useState("");
   const [guests, setGuests] = useState([]);
-  const [link, setLink] = useState("");
 
-  // 🔥 Generate unique slug
-  const generateSlug = (name) => {
-    const base = name.toLowerCase().trim().replace(/\s+/g, "-");
-    return `${base}-${Math.floor(Math.random() * 10000)}`;
-  };
-
-  // 🔥 Fetch all guests
+  // 🔥 Fetch guests
   const fetchGuests = async () => {
     const { data, error } = await supabase
       .from("invitees")
@@ -27,7 +20,6 @@ function Dashboard() {
     setGuests(data || []);
   };
 
-  // 🔥 Realtime subscription
   useEffect(() => {
     fetchGuests();
 
@@ -41,41 +33,51 @@ function Dashboard() {
           table: "invitees",
         },
         () => {
-          console.log("Realtime update triggered");
           fetchGuests();
         }
       )
       .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+    return () => supabase.removeChannel(channel);
   }, []);
 
-  // 🔥 Create invite
+  // 🔥 Create invite (FIXED)
   const createInvite = async () => {
-    if (!name.trim()) return alert("Enter guest name");
+    if (!name.trim()) return alert("Enter a name");
 
-    const slug = generateSlug(name);
+    const slug =
+      name.toLowerCase().replace(/\s+/g, "-") + "-" + Date.now();
 
-    const { error } = await supabase
-      .from("invitees")
-      .insert({
+    const { error } = await supabase.from("invitees").insert([
+      {
         name,
         slug,
-        rsvp: "pending",
+        rsvp: null,
         guest_count: 0,
-      });
+      },
+    ]);
 
     if (error) {
-      console.log("INSERT ERROR:", error);
-      alert("Error creating invite");
-      return;
-    }
+  console.error("INSERT ERROR FULL:", error);
+  alert(error.message);
+  return;
+}
 
-    const inviteLink = `http://localhost:5173/invite/${slug}`;
-    setLink(inviteLink);
+    alert("Invite created!");
     setName("");
+    fetchGuests();
+  };
+
+  // 🔥 Copy link
+  const copyLink = (slug) => {
+    const url = `${window.location.origin}/invite/${slug}`;
+    navigator.clipboard.writeText(url);
+    alert("Link copied!");
+  };
+
+  // 🔥 Open link (NEW — FIX YOUR PROBLEM)
+  const openInvite = (slug) => {
+    window.open(`/invite/${slug}`, "_blank");
   };
 
   // 🔥 Stats
@@ -87,13 +89,6 @@ function Dashboard() {
     (sum, g) => sum + (g.guest_count || 0),
     0
   );
-
-  // 🔥 Copy link
-  const copyLink = (slug) => {
-    const url = `http://localhost:5173/invite/${slug}`;
-    navigator.clipboard.writeText(url);
-    alert("Link copied!");
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -131,7 +126,7 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* CREATE INVITE */}
+      {/* CREATE */}
       <div className="bg-white p-5 rounded-xl shadow max-w-md mx-auto text-center mb-6">
         <h2 className="font-semibold mb-3">Create Invite</h2>
 
@@ -148,10 +143,6 @@ function Dashboard() {
         >
           Generate Invite
         </button>
-
-        {link && (
-          <p className="mt-3 text-blue-600 break-all">{link}</p>
-        )}
       </div>
 
       {/* TABLE */}
@@ -164,7 +155,7 @@ function Dashboard() {
               <th className="py-2">Name</th>
               <th>Status</th>
               <th>Guests</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
@@ -180,19 +171,26 @@ function Dashboard() {
                   {g.rsvp === "declined" && (
                     <span className="text-gray-500">Declined</span>
                   )}
-                  {(g.rsvp === "pending" || !g.rsvp) && (
+                  {!g.rsvp && (
                     <span className="text-yellow-600">Pending</span>
                   )}
                 </td>
 
                 <td>{g.guest_count || 0}</td>
 
-                <td>
+                <td className="flex gap-2 py-2">
+                  <button
+                    onClick={() => openInvite(g.slug)}
+                    className="bg-green-500 text-white px-3 py-1 rounded"
+                  >
+                    Open
+                  </button>
+
                   <button
                     onClick={() => copyLink(g.slug)}
                     className="bg-blue-500 text-white px-3 py-1 rounded"
                   >
-                    Copy Link
+                    Copy
                   </button>
                 </td>
               </tr>
@@ -200,7 +198,6 @@ function Dashboard() {
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }

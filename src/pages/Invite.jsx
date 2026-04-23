@@ -2,38 +2,51 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "../supabase";
 
-import InviteCard from "../components/InviteCard";
-import RSVPSection from "../components/RSVPSection";
-import LocationCard from "../components/LocationCard";
-
-function Invite() {
+export default function Invite() {
   const { slug } = useParams();
 
-  const [guest, setGuest] = useState(null);
+  const [invite, setInvite] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchGuest = async () => {
-      const { data } = await supabase
-        .from("invitees")
-        .select("*")
-        .eq("slug", slug)
-        .single();
-
-      setGuest(data);
-    };
-
-    fetchGuest();
+    fetchInvite();
   }, [slug]);
 
-  if (!guest) return <div>Loading...</div>;
+  async function fetchInvite() {
+    setLoading(true);
 
+    const { data, error } = await supabase
+      .from("invitees")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+
+    if (error) {
+      console.log("ERROR:", error);
+    }
+
+    setInvite(data);
+    setLoading(false);
+  }
+
+  // ✅ 1. Loading state (IMPORTANT)
+  if (loading) {
+    return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
+  }
+
+  // ✅ 2. Not found (ONLY after loading)
+  if (!invite) {
+    return <h2 style={{ textAlign: "center" }}>Invite not found</h2>;
+  }
+
+  // ✅ 3. Valid invite
   return (
-    <div className="p-6 flex flex-col items-center gap-6">
-      <InviteCard name={guest.name} />
-      <RSVPSection guest={guest} slug={slug} />
-      <LocationCard />
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <h1>Welcome, {invite.name}</h1>
+      <p>You are invited to Rahul & Anjali's wedding</p>
+
+      <p>Status: {invite.rsvp || "Not responded"}</p>
+      <p>Guests: {invite.guest_count || 0}</p>
     </div>
   );
 }
-
-export default Invite;
