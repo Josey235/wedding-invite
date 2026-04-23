@@ -1,0 +1,208 @@
+import { useEffect, useState } from "react";
+import { supabase } from "../supabase";
+
+function Dashboard() {
+  const [name, setName] = useState("");
+  const [guests, setGuests] = useState([]);
+  const [link, setLink] = useState("");
+
+  // 🔥 Generate unique slug
+  const generateSlug = (name) => {
+    const base = name.toLowerCase().trim().replace(/\s+/g, "-");
+    return `${base}-${Math.floor(Math.random() * 10000)}`;
+  };
+
+  // 🔥 Fetch all guests
+  const fetchGuests = async () => {
+    const { data, error } = await supabase
+      .from("invitees")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.log("FETCH ERROR:", error);
+      return;
+    }
+
+    setGuests(data || []);
+  };
+
+  // 🔥 Realtime subscription
+  useEffect(() => {
+    fetchGuests();
+
+    const channel = supabase
+      .channel("invitees-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "invitees",
+        },
+        () => {
+          console.log("Realtime update triggered");
+          fetchGuests();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  // 🔥 Create invite
+  const createInvite = async () => {
+    if (!name.trim()) return alert("Enter guest name");
+
+    const slug = generateSlug(name);
+
+    const { error } = await supabase
+      .from("invitees")
+      .insert({
+        name,
+        slug,
+        rsvp: "pending",
+        guest_count: 0,
+      });
+
+    if (error) {
+      console.log("INSERT ERROR:", error);
+      alert("Error creating invite");
+      return;
+    }
+
+    const inviteLink = `http://localhost:5173/invite/${slug}`;
+    setLink(inviteLink);
+    setName("");
+  };
+
+  // 🔥 Stats
+  const totalGuests = guests.length;
+  const attending = guests.filter((g) => g.rsvp === "attending");
+  const declined = guests.filter((g) => g.rsvp === "declined");
+
+  const totalPeople = attending.reduce(
+    (sum, g) => sum + (g.guest_count || 0),
+    0
+  );
+
+  // 🔥 Copy link
+  const copyLink = (slug) => {
+    const url = `http://localhost:5173/invite/${slug}`;
+    navigator.clipboard.writeText(url);
+    alert("Link copied!");
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-6">
+
+      <h1 className="text-3xl font-bold text-center mb-6">
+        Admin Dashboard
+      </h1>
+
+      {/* STATS */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-6">
+        <div className="bg-white p-4 rounded-xl shadow text-center">
+          <p>Total Guests</p>
+          <h2 className="text-xl font-bold">{totalGuests}</h2>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl shadow text-center">
+          <p>Attending</p>
+          <h2 className="text-xl font-bold text-green-600">
+            {attending.length}
+          </h2>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl shadow text-center">
+          <p>Declined</p>
+          <h2 className="text-xl font-bold text-gray-600">
+            {declined.length}
+          </h2>
+        </div>
+
+        <div className="bg-white p-4 rounded-xl shadow text-center">
+          <p>Total People</p>
+          <h2 className="text-xl font-bold text-pink-600">
+            {totalPeople}
+          </h2>
+        </div>
+      </div>
+
+      {/* CREATE INVITE */}
+      <div className="bg-white p-5 rounded-xl shadow max-w-md mx-auto text-center mb-6">
+        <h2 className="font-semibold mb-3">Create Invite</h2>
+
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Guest name"
+          className="border p-2 rounded w-full mb-3"
+        />
+
+        <button
+          onClick={createInvite}
+          className="w-full bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700"
+        >
+          Generate Invite
+        </button>
+
+        {link && (
+          <p className="mt-3 text-blue-600 break-all">{link}</p>
+        )}
+      </div>
+
+      {/* TABLE */}
+      <div className="bg-white p-5 rounded-xl shadow max-w-5xl mx-auto overflow-x-auto">
+        <h2 className="font-semibold mb-4">Guest List</h2>
+
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b text-left">
+              <th className="py-2">Name</th>
+              <th>Status</th>
+              <th>Guests</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {guests.map((g) => (
+              <tr key={g.id} className="border-b">
+                <td className="py-2">{g.name}</td>
+
+                <td>
+                  {g.rsvp === "attending" && (
+                    <span className="text-green-600">Attending</span>
+                  )}
+                  {g.rsvp === "declined" && (
+                    <span className="text-gray-500">Declined</span>
+                  )}
+                  {(g.rsvp === "pending" || !g.rsvp) && (
+                    <span className="text-yellow-600">Pending</span>
+                  )}
+                </td>
+
+                <td>{g.guest_count || 0}</td>
+
+                <td>
+                  <button
+                    onClick={() => copyLink(g.slug)}
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                  >
+                    Copy Link
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  );
+}
+
+export default Dashboard;
