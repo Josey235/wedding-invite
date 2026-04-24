@@ -30,8 +30,6 @@ function Invite() {
       .eq("slug", slug)
       .single();
 
-    console.log("FETCH RESULT 👉", data);
-
     if (error) {
       console.error("ERROR 👉", error);
     } else {
@@ -51,12 +49,12 @@ function Invite() {
   return (
     <div className="relative min-h-screen bg-secondary overflow-hidden">
 
-      {/* 🌸 Show petals ONLY for wedding */}
+      {/* 🌸 Wedding only */}
       {isWedding && <Petals />}
 
-      {/* Content */}
+      {/* 🔥 MASTER WIDTH CONTROL (THIS FIXES EVERYTHING) */}
       <motion.div
-        className="relative z-10 flex flex-col items-center gap-8 py-10 px-4"
+        className="relative z-10 w-full max-w-lg mx-auto flex flex-col gap-8 py-10 px-4"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -64,27 +62,19 @@ function Invite() {
 
         {/* Invite Card */}
         <motion.div
-          className="w-full max-w-md"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
         >
           {eventType === "communion" ? (
-            <CommunionInviteCard
-              name={invite.name}
-              event={event}
-            />
+            <CommunionInviteCard name={invite.name} event={event} />
           ) : (
-            <WeddingInviteCard
-              name={invite.name}
-              event={event}
-            />
+            <WeddingInviteCard name={invite.name} event={event} />
           )}
         </motion.div>
 
         {/* RSVP */}
         <motion.div
-          className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -94,7 +84,6 @@ function Invite() {
 
         {/* Location */}
         <motion.div
-          className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}

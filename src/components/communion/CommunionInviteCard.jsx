@@ -24,36 +24,28 @@ function CommunionInviteCard({ name, event }) {
   }, [event]);
 
   return (
-    <div className="w-full max-w-md mx-auto fade-in">
+    <div className="w-full max-w-lg mx-auto fade-in"> {/* ✅ ONLY CHANGE HERE */}
 
-      {/* 🌟 BACKGROUND */}
-      <div className="relative paper-bg p-4 rounded-3xl">
+      <div className="relative p-4">
 
-        {/* ✨ GLOW */}
         <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#f9f4ec] to-[#f7efe8] opacity-60 blur-xl"></div>
 
-        {/* 🌿 CARD */}
-        <div className="relative card card-premium border border-[#e8dcd0] rounded-2xl px-6 py-8">
+        <div className="relative card bg-white shadow-xl px-8 py-10 rounded-2xl">
 
-          {/* HEADER */}
           <p className="text-center text-lg text-gray-600 font-[Great_Vibes] mb-4">
             First Holy Communion
           </p>
 
-          {/* 🌿 TOP */}
           <div className="flex flex-col items-center mb-6 relative">
 
-            {/* ✨ SACRED GLOW */}
             <div className="absolute w-40 h-40 bg-yellow-100 rounded-full blur-3xl opacity-30"></div>
 
-            {/* LEAF */}
             <img
               src={leaf}
               alt="leaf"
-              className="w-56 opacity-80 -rotate-6 relative z-10"
+              className="w-56 opacity-80 -rotate-6 relative z-13"
             />
 
-            {/* GOLD CROSS */}
             <div className="text-6xl -mt-10 gold-text z-10">
               ✝
             </div>
@@ -61,7 +53,6 @@ function CommunionInviteCard({ name, event }) {
             <div className="w-12 h-[1px] bg-gray-300 mt-2 opacity-40"></div>
           </div>
 
-          {/* NAME */}
           <h1 className="font-serif text-2xl text-gray-800 text-center tracking-wide">
             {event?.child_name}
           </h1>
@@ -70,17 +61,14 @@ function CommunionInviteCard({ name, event }) {
             Child of {event?.parent_names}
           </p>
 
-          {/* QUOTE */}
-          {/* QUOTE */}
-<p className="text-sm text-gray-500 italic mb-2 text-center px-4 leading-relaxed">
-  “This is my body given for you; do this in remembrance of me.”
-</p>
+          <p className="text-sm text-gray-500 italic mb-2 text-center px-4 leading-relaxed">
+            “This is my body given for you; do this in remembrance of me.”
+          </p>
 
-{/* ✨ VERSE REFERENCE */}
-<p className="text-xs text-gray-400 text-center tracking-wide mb-6">
-  Luke 22:19
-</p>
-          {/* DATE */}
+          <p className="text-xs text-gray-400 text-center tracking-wide mb-6">
+            Luke 22:19
+          </p>
+
           <div className="flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 mb-6 bg-white/70 shadow-sm">
 
             <div>
@@ -102,7 +90,6 @@ function CommunionInviteCard({ name, event }) {
             </div>
           </div>
 
-          {/* COUNTDOWN */}
           <p className="text-xs tracking-widest text-gray-400 mb-3 text-center">
             EVENT COUNTDOWN
           </p>
@@ -123,7 +110,6 @@ function CommunionInviteCard({ name, event }) {
             ))}
           </div>
 
-          {/* GUEST */}
           <p className="text-sm text-gray-400 italic text-center">
             Invited Guest: {name}
           </p>
