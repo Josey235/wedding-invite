@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import petalImg from "../assets/petal.png";
+import petalImg from "../../assets/petal.png";
 
 export default function Petals() {
   const [petals, setPetals] = useState([]);

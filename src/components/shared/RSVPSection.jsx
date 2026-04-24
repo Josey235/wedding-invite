@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "../supabase";
+import { supabase } from "../../supabase";
 
 function RSVPSection({ invite, setInvite }) {
   const [status, setStatus] = useState(invite.rsvp);

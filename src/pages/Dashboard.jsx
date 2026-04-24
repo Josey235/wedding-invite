@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { supabase } from "../supabase";
 
 function Dashboard() {
+  const { eventId } = useParams(); // 🔥 IMPORTANT
+
   const [name, setName] = useState("");
   const [guests, setGuests] = useState([]);
 
-  // 🔥 Fetch guests
+  // 🔥 Fetch guests (FILTERED)
   const fetchGuests = async () => {
     const { data, error } = await supabase
       .from("invitees")
       .select("*")
+      .eq("event_id", eventId) // ✅ FILTER
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -21,6 +25,8 @@ function Dashboard() {
   };
 
   useEffect(() => {
+    if (!eventId) return;
+
     fetchGuests();
 
     const channel = supabase
@@ -39,9 +45,9 @@ function Dashboard() {
       .subscribe();
 
     return () => supabase.removeChannel(channel);
-  }, []);
+  }, [eventId]);
 
-  // 🔥 Create invite (FIXED)
+  // 🔥 Create invite (NOW LINKED TO EVENT)
   const createInvite = async () => {
     if (!name.trim()) return alert("Enter a name");
 
@@ -54,14 +60,15 @@ function Dashboard() {
         slug,
         rsvp: null,
         guest_count: 0,
+        event_id: eventId, // ✅ CRITICAL FIX
       },
     ]);
 
     if (error) {
-  console.error("INSERT ERROR FULL:", error);
-  alert(error.message);
-  return;
-}
+      console.error("INSERT ERROR FULL:", error);
+      alert(error.message);
+      return;
+    }
 
     alert("Invite created!");
     setName("");
@@ -75,12 +82,12 @@ function Dashboard() {
     alert("Link copied!");
   };
 
-  // 🔥 Open link (NEW — FIX YOUR PROBLEM)
+  // 🔥 Open link
   const openInvite = (slug) => {
     window.open(`/invite/${slug}`, "_blank");
   };
 
-  // 🔥 Stats
+  // 🔥 Stats (ALREADY FILTERED)
   const totalGuests = guests.length;
   const attending = guests.filter((g) => g.rsvp === "attending");
   const declined = guests.filter((g) => g.rsvp === "declined");
@@ -96,6 +103,11 @@ function Dashboard() {
       <h1 className="text-3xl font-bold text-center mb-6">
         Admin Dashboard
       </h1>
+
+      {/* EVENT INFO */}
+      <p className="text-center text-sm text-gray-500 mb-4">
+        Event ID: {eventId}
+      </p>
 
       {/* STATS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-6">

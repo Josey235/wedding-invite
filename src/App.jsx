@@ -1,23 +1,29 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Invite from "./pages/Invite";
-import Petals from "./components/Petals";
+
+// 🔥 TEMP DEFAULT EVENT
+const DEFAULT_EVENT_ID = "02cf8c70-a103-4759-8395-88267b880426";
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-[#fdf6f6] overflow-hidden">
+    <div className="min-h-screen bg-[#fdf6f6]">
 
-      {/* 🌸 Background Animation */}
-      <Petals />
+      <Routes>
 
-      {/* 🌐 Main Content */}
-      <div className="relative z-20">
-        <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/invite/:slug" element={<Invite />} />
-        </Routes>
-      </div>
+        {/* Redirect */}
+        <Route
+          path="/"
+          element={<Navigate to={`/dashboard/${DEFAULT_EVENT_ID}`} />}
+        />
+
+        {/* Dashboard */}
+        <Route path="/dashboard/:eventId" element={<Dashboard />} />
+
+        {/* Invite */}
+        <Route path="/invite/:slug" element={<Invite />} />
+
+      </Routes>
 
     </div>
   );
