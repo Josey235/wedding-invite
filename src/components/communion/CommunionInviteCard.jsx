@@ -1,25 +1,16 @@
 import { useEffect, useState } from "react";
+import leaf from "../../assets/leaf.png";
 
 function CommunionInviteCard({ name, event }) {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    mins: 0,
-    secs: 0,
-  });
+  const [timeLeft, setTimeLeft] = useState({});
 
   useEffect(() => {
-    if (!event?.event_date) return;
-
     const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const target = new Date(event.event_date).getTime();
-      const diff = target - now;
+      const now = new Date();
+      const eventDate = new Date(event?.event_date);
+      const diff = eventDate - now;
 
-      if (diff <= 0) {
-        clearInterval(interval);
-        return;
-      }
+      if (diff <= 0) return;
 
       setTimeLeft({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -32,87 +23,113 @@ function CommunionInviteCard({ name, event }) {
     return () => clearInterval(interval);
   }, [event]);
 
-  if (!event) return null;
-
-  const eventDate = new Date(event.event_date);
-
   return (
-    <div className="card space-y-6">
+    <div className="w-full max-w-md mx-auto fade-in">
 
-      {/* ✝️ Title */}
-      <div className="space-y-2">
-        <p className="uppercase tracking-widest text-xs text-gray-400">
-          First Holy Communion
-        </p>
+      {/* 🌟 BACKGROUND */}
+      <div className="relative paper-bg p-4 rounded-3xl">
 
-        <h1 className="text-3xl font-heading text-gray-800">
-          {event.child_name}
-        </h1>
+        {/* ✨ GLOW */}
+        <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#f9f4ec] to-[#f7efe8] opacity-60 blur-xl"></div>
 
-        <p className="text-sm text-gray-500 italic">
-          Child of {event.parent_names}
-        </p>
-      </div>
+        {/* 🌿 CARD */}
+        <div className="relative card card-premium border border-[#e8dcd0] rounded-2xl px-6 py-8">
 
-      {/* 🙏 Blessing line */}
-      <p className="text-sm text-gray-500 italic">
-        "This is my body given for you; do this in remembrance of me."
-      </p>
-
-      {/* 📅 Date Box */}
-      <div className="border rounded-xl px-4 py-3 flex justify-between items-center">
-
-        <div className="text-left">
-          <p className="text-xs uppercase text-gray-400">
-            {eventDate.toLocaleString("default", { month: "long" })}
+          {/* HEADER */}
+          <p className="text-center text-lg text-gray-600 font-[Great_Vibes] mb-4">
+            First Holy Communion
           </p>
 
-          <p className="text-sm text-gray-600">
-            {eventDate.getFullYear()}, {eventDate.toLocaleDateString("default", { weekday: "long" })}
-          </p>
-        </div>
+          {/* 🌿 TOP */}
+          <div className="flex flex-col items-center mb-6 relative">
 
-        <div className="text-3xl text-primary font-semibold">
-          {eventDate.getDate()}
-        </div>
+            {/* ✨ SACRED GLOW */}
+            <div className="absolute w-40 h-40 bg-yellow-100 rounded-full blur-3xl opacity-30"></div>
 
-        <div className="text-sm text-gray-600">
-          {eventDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-        </div>
+            {/* LEAF */}
+            <img
+              src={leaf}
+              alt="leaf"
+              className="w-56 opacity-80 -rotate-6 relative z-10"
+            />
 
-      </div>
-
-      {/* ⏳ Countdown */}
-      <div className="space-y-2">
-        <p className="uppercase text-xs tracking-widest text-gray-400">
-          Event Countdown
-        </p>
-
-        <div className="flex justify-center gap-3">
-
-          {[
-            { label: "Days", value: timeLeft.days },
-            { label: "Hours", value: timeLeft.hours },
-            { label: "Mins", value: timeLeft.mins },
-            { label: "Secs", value: timeLeft.secs },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className="border rounded-xl px-3 py-2 w-16 text-center"
-            >
-              <p className="text-lg font-semibold">{item.value}</p>
-              <p className="text-xs text-gray-400">{item.label}</p>
+            {/* GOLD CROSS */}
+            <div className="text-6xl -mt-10 gold-text z-10">
+              ✝
             </div>
-          ))}
+
+            <div className="w-12 h-[1px] bg-gray-300 mt-2 opacity-40"></div>
+          </div>
+
+          {/* NAME */}
+          <h1 className="font-serif text-2xl text-gray-800 text-center tracking-wide">
+            {event?.child_name}
+          </h1>
+
+          <p className="text-sm text-gray-500 italic mb-4 text-center">
+            Child of {event?.parent_names}
+          </p>
+
+          {/* QUOTE */}
+          {/* QUOTE */}
+<p className="text-sm text-gray-500 italic mb-2 text-center px-4 leading-relaxed">
+  “This is my body given for you; do this in remembrance of me.”
+</p>
+
+{/* ✨ VERSE REFERENCE */}
+<p className="text-xs text-gray-400 text-center tracking-wide mb-6">
+  Luke 22:19
+</p>
+          {/* DATE */}
+          <div className="flex items-center justify-between border border-gray-200 rounded-xl px-4 py-3 mb-6 bg-white/70 shadow-sm">
+
+            <div>
+              <p className="text-xs text-gray-400">APRIL</p>
+              <p className="text-sm text-gray-600">
+                {new Date(event?.event_date).toDateString()}
+              </p>
+            </div>
+
+            <div className="text-3xl font-bold text-[#c89b3c]">
+              {new Date(event?.event_date).getDate()}
+            </div>
+
+            <div className="text-sm text-gray-600">
+              {new Date(event?.event_date).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </div>
+          </div>
+
+          {/* COUNTDOWN */}
+          <p className="text-xs tracking-widest text-gray-400 mb-3 text-center">
+            EVENT COUNTDOWN
+          </p>
+
+          <div className="grid grid-cols-4 gap-3 mb-6">
+            {["days", "hours", "mins", "secs"].map((unit, i) => (
+              <div
+                key={i}
+                className="bg-white border border-[#eee] rounded-lg py-3 shadow-sm text-center hover:shadow-md transition"
+              >
+                <p className="text-lg font-semibold text-gray-800">
+                  {timeLeft[unit] ?? "0"}
+                </p>
+                <p className="text-xs text-gray-400 capitalize">
+                  {unit}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* GUEST */}
+          <p className="text-sm text-gray-400 italic text-center">
+            Invited Guest: {name}
+          </p>
 
         </div>
       </div>
-
-      {/* 👤 Guest */}
-      <p className="text-sm text-gray-400 italic">
-        Invited Guest: {name}
-      </p>
-
     </div>
   );
 }
