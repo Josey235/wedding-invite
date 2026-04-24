@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
-
 import InviteCard from "../components/InviteCard";
 import RSVPSection from "../components/RSVPSection";
 import LocationCard from "../components/LocationCard";
 
-export default function Invite() {
+function Invite() {
   const { slug } = useParams();
 
   const [invite, setInvite] = useState(null);
@@ -17,8 +16,6 @@ export default function Invite() {
   }, [slug]);
 
   async function fetchInvite() {
-    setLoading(true);
-
     const { data, error } = await supabase
       .from("invitees")
       .select("*")
@@ -26,46 +23,32 @@ export default function Invite() {
       .single();
 
     if (error) {
-      console.log("ERROR:", error);
-      setLoading(false);
-      return;
+      console.error("Error fetching invite:", error);
+    } else {
+      setInvite(data);
     }
 
-    setInvite(data);
     setLoading(false);
   }
 
-  async function handleRSVP(status, guestCount = 0) {
-    const { error } = await supabase
-      .from("invitees")
-      .update({
-        rsvp: status,
-        guest_count: guestCount,
-        responded_at: new Date(),
-      })
-      .eq("slug", slug);
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
 
-    if (!error) fetchInvite();
-  }
-
-  if (loading) return <h2 style={{ textAlign: "center" }}>Loading...</h2>;
-  if (!invite) return <h2 style={{ textAlign: "center" }}>Invite not found</h2>;
+  if (!invite) return <p className="text-center mt-10">Invite not found</p>;
 
   return (
-    <div style={{ maxWidth: "500px", margin: "auto", padding: "20px" }}>
+    <div className="min-h-screen bg-secondary flex flex-col items-center gap-6 py-10 px-4">
       
-      {/* 🔴 HEADER + COUNTDOWN */}
+      {/* Invite Card */}
       <InviteCard name={invite.name} />
 
-      {/* 🟢 RSVP SECTION */}
-      <RSVPSection
-        invite={invite}
-        onSubmit={handleRSVP}
-      />
+      {/* RSVP Section */}
+      <RSVPSection invite={invite} setInvite={setInvite} />
 
-      {/* 📍 LOCATION */}
+      {/* Location */}
       <LocationCard />
 
     </div>
   );
 }
+
+export default Invite;

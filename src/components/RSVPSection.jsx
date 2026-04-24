@@ -1,87 +1,137 @@
 import { useState } from "react";
+import { supabase } from "../supabase";
 
-export default function RSVPSection({ invite, onSubmit }) {
-  const [selected, setSelected] = useState(null);
-  const [guestCount, setGuestCount] = useState(1);
+function RSVPSection({ invite, setInvite }) {
+  const [status, setStatus] = useState(invite.rsvp);
+  const [guests, setGuests] = useState(invite.guest_count || 1);
+  const [loading, setLoading] = useState(false);
 
-  function handleYes() {
-    setSelected("attending");
-  }
+  async function updateRSVP(newStatus) {
+    setLoading(true);
 
-  function handleNo() {
-    setSelected("declined");
-    onSubmit("declined", 0);
-  }
+    const { data, error } = await supabase
+      .from("invitees")
+      .update({
+        rsvp: newStatus,
+        guest_count: newStatus === "attending" ? guests : 0,
+      })
+      .eq("id", invite.id)
+      .select()
+      .single();
 
-  function confirmGuests() {
-    onSubmit("attending", guestCount);
+    if (!error) {
+      setInvite(data);
+      setStatus(newStatus);
+    }
+
+    setLoading(false);
   }
 
   return (
-    <div className="bg-white p-5 rounded shadow mt-4 text-center">
+    <div className="bg-white rounded-2xl shadow-card p-6 w-full max-w-md text-center space-y-6">
 
-      <h3 className="text-pink-600 font-semibold text-lg">
-        Will you be joining us?
-      </h3>
+      <h2 className="uppercase tracking-widest text-sm text-gray-400">
+        Will you attend?
+      </h2>
 
-      {/* YES / NO BUTTONS */}
-      <div className="flex gap-3 mt-4">
-        <button
-          className="flex-1 bg-green-500 text-white py-2 rounded"
-          onClick={handleYes}
-        >
-          Yes 🎉
-        </button>
+      {/* YES BUTTON */}
+      <button
+        onClick={() => setStatus("attending")}
+        className={`w-full py-4 rounded-full border-2 transition-all duration-300
+        ${
+          status === "attending"
+            ? "border-primary text-primary"
+            : "border-gray-200 text-gray-600 hover:border-primary"
+        }`}
+      >
+        ✔ Yes, with joy!
+      </button>
 
-        <button
-          className="flex-1 bg-gray-400 text-white py-2 rounded"
-          onClick={handleNo}
-        >
-          No 😔
-        </button>
-      </div>
+      {/* NO BUTTON */}
+      <button
+        onClick={() => setStatus("declined")}
+        className={`w-full py-4 rounded-full border-2 transition-all duration-300
+        ${
+          status === "declined"
+            ? "border-red-400 text-red-400"
+            : "border-gray-200 text-gray-400 hover:border-red-400"
+        }`}
+      >
+        ✖ Sorry, I can’t make it
+      </button>
 
-      {/* 👇 ONLY SHOW AFTER YES */}
-      {selected === "attending" && (
-        <div className="mt-4">
+      {/* YES FLOW */}
+      {status === "attending" && (
+        <div className="space-y-4 animate-fadeIn">
 
-          <p className="text-gray-600 mb-2">
+          <p className="text-sm text-gray-500">
             Number of guests
           </p>
 
-          <div className="flex justify-center gap-2">
-            {[1, 2, 3, 4, 5].map((num) => (
-              <button
-                key={num}
-                onClick={() => setGuestCount(num)}
-                className={`px-3 py-1 rounded ${
-                  guestCount === num
-                    ? "bg-pink-600 text-white"
-                    : "bg-gray-200"
-                }`}
-              >
-                {num}
-              </button>
-            ))}
+          <div className="flex justify-center items-center gap-4">
+            
+            <button
+              onClick={() => setGuests(Math.max(1, guests - 1))}
+              className="w-10 h-10 rounded-full border text-lg"
+            >
+              −
+            </button>
+
+            <span className="text-xl font-semibold">{guests}</span>
+
+            <button
+              onClick={() => setGuests(guests + 1)}
+              className="w-10 h-10 rounded-full border text-lg"
+            >
+              +
+            </button>
+
           </div>
 
           <button
-            onClick={confirmGuests}
-            className="mt-3 bg-pink-600 text-white px-4 py-2 rounded w-full"
+            onClick={() => updateRSVP("attending")}
+            disabled={loading}
+            className="w-full bg-primary text-white py-3 rounded-full mt-2 hover:opacity-90"
           >
-            Confirm RSVP
+            Confirm Attendance
           </button>
 
         </div>
       )}
 
-      {/* RESPONSE MESSAGE */}
-      {invite.rsvp && (
-        <p className="text-green-600 mt-3">
-          ✅ Response recorded
-        </p>
+      {/* NO FLOW */}
+      {status === "declined" && (
+        <div className="bg-red-50 border-l-4 border-red-300 p-4 rounded-lg text-left space-y-4 animate-fadeIn">
+
+          <h3 className="text-lg font-heading text-gray-700 text-center">
+            We’ll Miss You 💔
+          </h3>
+
+          <p className="text-sm text-gray-500 italic">
+            Thank you for letting us know.  
+            Though you won’t be with us in person, you’ll be in our hearts as we celebrate this special day.
+          </p>
+
+          <button
+            onClick={() => updateRSVP("declined")}
+            disabled={loading}
+            className="w-full border border-red-400 text-red-500 py-3 rounded-full hover:bg-red-50"
+          >
+            Confirm Response
+          </button>
+
+          <button
+            onClick={() => setStatus(null)}
+            className="w-full text-sm text-gray-400 underline"
+          >
+            Change my mind — I’ll attend
+          </button>
+
+        </div>
       )}
 
     </div>
   );
 }
+
+export default RSVPSection;
