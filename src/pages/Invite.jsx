@@ -5,7 +5,7 @@ import { supabase } from "../supabase";
 import InviteCard from "../components/InviteCard";
 import RSVPSection from "../components/RSVPSection";
 import LocationCard from "../components/LocationCard";
-import Petals from "../components/Petals"; // ✅ YOU MISSED THIS
+import Petals from "../components/Petals";
 
 function Invite() {
   const { slug } = useParams();
@@ -37,23 +37,23 @@ function Invite() {
   if (!invite) return <p className="text-center mt-10">Invite not found</p>;
 
   return (
-  <div className="relative min-h-screen bg-secondary flex flex-col items-center gap-6 py-10 px-4 overflow-hidden">
+    <div className="relative min-h-screen bg-secondary overflow-hidden">
 
-    {/* 🌸 PETALS BACKGROUND */}
-    <Petals />
+      {/* 🌸 ATMOSPHERE LAYER (FRONT PETALS) */}
+      <Petals />
 
-    {/* CONTENT */}
-    <div className="relative z-10 flex flex-col items-center gap-6 w-full">
+      {/* 📦 CONTENT LAYER */}
+      <div className="relative z-10 flex flex-col items-center gap-6 py-10 px-4">
 
-      <InviteCard name={invite.name} />
+        <InviteCard name={invite.name} />
 
-      <RSVPSection invite={invite} setInvite={setInvite} />
+        <RSVPSection invite={invite} setInvite={setInvite} />
 
-      <LocationCard />
+        <LocationCard />
+
+      </div>
 
     </div>
-  </div>
-
   );
 }
 

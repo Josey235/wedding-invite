@@ -11,7 +11,7 @@ export default function Petals() {
       size: 30 + Math.random() * 40,
       duration: 6 + Math.random() * 8,
       delay: Math.random() * 5,
-      opacity: 0.7 + Math.random() * 0.3,
+      opacity: 0.5 + Math.random() * 0.4,
       blur: Math.random() * 1.5,
       rotation: Math.random() * 360,
     }));
@@ -20,7 +20,7 @@ export default function Petals() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[1]">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[50]">
       {petals.map((p) => (
         <img
           key={p.id}
@@ -31,9 +31,9 @@ export default function Petals() {
             left: `${p.left}%`,
             width: `${p.size}px`,
             top: "-60px",
-            opacity: p.opacity,
+            opacity: p.opacity * 0.6, // softened visibility
             transform: `rotate(${p.rotation}deg)`,
-            filter: `blur(${p.blur}px)`,
+            filter: `blur(${p.blur}px) brightness(1.1)`,
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
             animationTimingFunction: "ease-in-out",
