@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
+
 import InviteCard from "../components/InviteCard";
 import RSVPSection from "../components/RSVPSection";
 import LocationCard from "../components/LocationCard";
+import Petals from "../components/Petals"; // ✅ YOU MISSED THIS
 
 function Invite() {
   const { slug } = useParams();
@@ -32,22 +34,26 @@ function Invite() {
   }
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
-
   if (!invite) return <p className="text-center mt-10">Invite not found</p>;
 
   return (
-    <div className="min-h-screen bg-secondary flex flex-col items-center gap-6 py-10 px-4">
-      
-      {/* Invite Card */}
+  <div className="relative min-h-screen bg-secondary flex flex-col items-center gap-6 py-10 px-4 overflow-hidden">
+
+    {/* 🌸 PETALS BACKGROUND */}
+    <Petals />
+
+    {/* CONTENT */}
+    <div className="relative z-10 flex flex-col items-center gap-6 w-full">
+
       <InviteCard name={invite.name} />
 
-      {/* RSVP Section */}
       <RSVPSection invite={invite} setInvite={setInvite} />
 
-      {/* Location */}
       <LocationCard />
 
     </div>
+  </div>
+
   );
 }
 
