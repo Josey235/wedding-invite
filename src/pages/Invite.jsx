@@ -30,50 +30,33 @@ function Invite() {
       .eq("slug", slug)
       .single();
 
+    console.log("FETCH RESULT 👉", data);
+
     if (error) {
       console.error("ERROR 👉", error);
-      setLoading(false);
-      return;
+    } else {
+      setInvite(data);
+      setEvent(data?.events);
     }
 
-    if (!data || !data.events) {
-      console.error("🚨 Event not linked properly");
-      setLoading(false);
-      return;
-    }
-
-    setInvite(data);
-    setEvent(data.events);
     setLoading(false);
   }
 
-  // 🔥 Loading
-  if (loading) {
-    return <p className="text-center mt-10">Loading...</p>;
-  }
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!invite) return <p className="text-center mt-10">Invite not found</p>;
 
-  // 🔥 Fail-safe
-  if (!invite || !event) {
-    return (
-      <p className="text-center mt-10 text-red-500">
-        Invalid invite or event not found
-      </p>
-    );
-  }
-
-  // 🔥 Decide UI type FIRST (clean logic)
-  const isCommunion = event.event_type === "communion";
-  const isWedding = event.event_type === "wedding";
+  const eventType = event?.event_type?.toLowerCase();
+  const isWedding = eventType === "wedding";
 
   return (
     <div className="relative min-h-screen bg-secondary overflow-hidden">
 
-      {/* 🌸 Only show petals for wedding */}
+      {/* 🌸 Show petals ONLY for wedding */}
       {isWedding && <Petals />}
 
       {/* Content */}
       <motion.div
-        className="relative z-10 flex flex-col items-center gap-6 py-10 px-4"
+        className="relative z-10 flex flex-col items-center gap-8 py-10 px-4"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -81,18 +64,17 @@ function Invite() {
 
         {/* Invite Card */}
         <motion.div
+          className="w-full max-w-md"
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
         >
-          {isCommunion && (
+          {eventType === "communion" ? (
             <CommunionInviteCard
               name={invite.name}
               event={event}
             />
-          )}
-
-          {isWedding && (
+          ) : (
             <WeddingInviteCard
               name={invite.name}
               event={event}
@@ -102,6 +84,7 @@ function Invite() {
 
         {/* RSVP */}
         <motion.div
+          className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -111,6 +94,7 @@ function Invite() {
 
         {/* Location */}
         <motion.div
+          className="w-full max-w-md"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
