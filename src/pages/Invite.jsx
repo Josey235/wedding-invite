@@ -8,6 +8,7 @@ import RSVPSection from "../components/RSVPSection";
 import LocationCard from "../components/LocationCard";
 import Petals from "../components/Petals";
 
+
 function Invite() {
   const { slug } = useParams();
 
