@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
+import { motion } from "framer-motion";
 
 import InviteCard from "../components/InviteCard";
 import RSVPSection from "../components/RSVPSection";
@@ -24,12 +25,7 @@ function Invite() {
       .eq("slug", slug)
       .single();
 
-    if (error) {
-      console.error("Error fetching invite:", error);
-    } else {
-      setInvite(data);
-    }
-
+    if (!error) setInvite(data);
     setLoading(false);
   }
 
@@ -37,22 +33,50 @@ function Invite() {
   if (!invite) return <p className="text-center mt-10">Invite not found</p>;
 
   return (
-    <div className="relative min-h-screen bg-secondary overflow-hidden">
+    <div className="relative min-h-screen bg-secondary flex justify-center overflow-hidden px-4">
 
-      {/* 🌸 ATMOSPHERE LAYER (FRONT PETALS) */}
+      {/* 🌸 PETALS (BACKGROUND LAYER) */}
       <Petals />
 
-      {/* 📦 CONTENT LAYER */}
-      <div className="relative z-10 flex flex-col items-center gap-6 py-10 px-4">
+      {/* 🔥 MASTER FIXED WIDTH CONTAINER */}
+      <motion.div
+        className="relative z-10 w-full max-w-md flex flex-col items-center gap-6 py-10"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
 
-        <InviteCard name={invite.name} />
+        {/* INVITE */}
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <InviteCard name={invite.name} />
+        </motion.div>
 
-        <RSVPSection invite={invite} setInvite={setInvite} />
+        {/* RSVP */}
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+        >
+          <RSVPSection invite={invite} setInvite={setInvite} />
+        </motion.div>
 
-        <LocationCard />
+        {/* LOCATION */}
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <LocationCard />
+        </motion.div>
 
-      </div>
-
+      </motion.div>
     </div>
   );
 }

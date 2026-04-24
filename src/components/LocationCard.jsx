@@ -1,34 +1,25 @@
 import { MapPin } from "lucide-react";
 
 function LocationCard() {
-  const locationUrl =
-    "https://www.google.com/maps?q=Lourde+Matha+Church+Mammod";
-
   return (
-    <div className="bg-white/80 backdrop-blur-md rounded-2xl shadow-card p-6 w-full max-w-md text-center space-y-4">
+    <div className="card space-y-4">
 
-      {/* Title */}
-      <h2 className="font-heading text-lg text-gray-700">
+      <h2 className="text-lg font-heading text-gray-700">
         Wedding Ceremony
       </h2>
 
-      {/* Location Name */}
-      <p className="text-sm text-gray-500 leading-relaxed">
+      <p className="text-gray-500 text-sm leading-relaxed">
         Lourde Matha Church <br />
-        Mammod, Kerala
+        Mammood, Kerala
       </p>
 
-      {/* Divider Dot */}
-      <div className="flex justify-center">
-        <div className="w-2 h-2 bg-gray-300 rounded-full"></div>
-      </div>
+      <div className="w-2 h-2 bg-gray-300 rounded-full mx-auto" />
 
-      {/* Button */}
       <a
-        href={locationUrl}
+        href="https://www.google.com/maps/search/?api=1&query=Lourde+Matha+Church+Mammood"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 border border-primary text-primary py-3 rounded-full transition-all duration-300 hover:bg-primary hover:text-white"
+        className="w-full flex items-center justify-center gap-2 border border-primary text-primary py-3 rounded-full hover:bg-primary hover:text-white transition-all duration-300 font-medium"
       >
         <MapPin size={18} />
         Get Directions
