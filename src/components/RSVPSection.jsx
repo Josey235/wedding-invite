@@ -5,6 +5,7 @@ function RSVPSection({ invite, setInvite }) {
   const [status, setStatus] = useState(invite.rsvp);
   const [guests, setGuests] = useState(invite.guest_count || 1);
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false); // ✅ NEW
 
   async function updateRSVP(newStatus) {
     setLoading(true);
@@ -22,6 +23,9 @@ function RSVPSection({ invite, setInvite }) {
     if (!error) {
       setInvite(data);
       setStatus(newStatus);
+      setSubmitted(true); // ✅ THIS WAS MISSING
+    } else {
+      alert("Something went wrong");
     }
 
     setLoading(false);
@@ -34,9 +38,17 @@ function RSVPSection({ invite, setInvite }) {
         Will you attend?
       </h2>
 
+      {/* ✅ AFTER SUBMIT SHOW RESULT */}
+      {submitted && (
+        <div className="text-green-600 font-medium text-sm">
+          ✅ Response recorded successfully
+        </div>
+      )}
+
       {/* YES BUTTON */}
       <button
         onClick={() => setStatus("attending")}
+        disabled={submitted}
         className={`w-full py-4 rounded-full border-2 transition-all duration-300
         ${
           status === "attending"
@@ -50,6 +62,7 @@ function RSVPSection({ invite, setInvite }) {
       {/* NO BUTTON */}
       <button
         onClick={() => setStatus("declined")}
+        disabled={submitted}
         className={`w-full py-4 rounded-full border-2 transition-all duration-300
         ${
           status === "declined"
@@ -61,7 +74,7 @@ function RSVPSection({ invite, setInvite }) {
       </button>
 
       {/* YES FLOW */}
-      {status === "attending" && (
+      {status === "attending" && !submitted && (
         <div className="space-y-4 animate-fadeIn">
 
           <p className="text-sm text-gray-500">
@@ -93,14 +106,14 @@ function RSVPSection({ invite, setInvite }) {
             disabled={loading}
             className="w-full bg-primary text-white py-3 rounded-full mt-2 hover:opacity-90"
           >
-            Confirm Attendance
+            {loading ? "Saving..." : "Confirm Attendance"}
           </button>
 
         </div>
       )}
 
       {/* NO FLOW */}
-      {status === "declined" && (
+      {status === "declined" && !submitted && (
         <div className="bg-red-50 border-l-4 border-red-300 p-4 rounded-lg text-left space-y-4 animate-fadeIn">
 
           <h3 className="text-lg font-heading text-gray-700 text-center">
@@ -117,7 +130,7 @@ function RSVPSection({ invite, setInvite }) {
             disabled={loading}
             className="w-full border border-red-400 text-red-500 py-3 rounded-full hover:bg-red-50"
           >
-            Confirm Response
+            {loading ? "Saving..." : "Confirm Response"}
           </button>
 
           <button
