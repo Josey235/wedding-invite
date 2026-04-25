@@ -33,13 +33,10 @@ function CommunionInviteCard({ name, event }) {
         <div className="relative aspect-[3/4] overflow-hidden">
           <img src={girl} className="w-full h-full object-cover" />
 
-          {/* LIGHT FADE */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-transparent"></div>
 
-          {/* TOP SECTION */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* FOG */}
             <div className="absolute top-0 w-full flex justify-center">
               <img
                 src={fog}
@@ -47,7 +44,6 @@ function CommunionInviteCard({ name, event }) {
               />
             </div>
 
-            {/* CORNER CROSSES */}
             <div className="absolute left-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">
               ✝
             </div>
@@ -56,7 +52,6 @@ function CommunionInviteCard({ name, event }) {
               ✝
             </div>
 
-            {/* TEXT */}
             <div className="relative z-10 flex flex-col items-center pt-10">
 
               <p className="text-[10px] tracking-[0.5em] text-gray-700 mb-1">
@@ -81,7 +76,6 @@ function CommunionInviteCard({ name, event }) {
           </div>
         </div>
 
-        {/* BODY */}
         <div className="relative -mt-20 px-4 pb-6">
 
           <div className="
@@ -93,7 +87,6 @@ function CommunionInviteCard({ name, event }) {
             pt-8 pb-6 px-5 text-center
           ">
 
-            {/* 🔥 1. BIBLE VERSE FIRST */}
             <p className="text-sm text-gray-500 italic">
               “This is my body given for you; do this in remembrance of me.”
             </p>
@@ -102,31 +95,27 @@ function CommunionInviteCard({ name, event }) {
               Luke 22:19
             </p>
 
-            {/* 🔥 2. NAME */}
             <h2 className="text-[22px] font-serif text-gray-800 tracking-wide mt-4">
               {event?.child_name}
             </h2>
 
-            {/* 🔥 3. INVITATION TEXT */}
             <p className="
-  mt-3
-  text-[20px]
-  font-[Parisienne]
-  text-[#b8964c]
-  leading-relaxed
-  tracking-wide
-">
-  We invite you to join our daughter’s First Holy Communion
-</p>
+              mt-3
+              text-[20px]
+              font-[Parisienne]
+              text-[#b8964c]
+              leading-relaxed
+              tracking-wide
+            ">
+              We invite you to join our daughter’s First Holy Communion
+            </p>
 
-            {/* DIVIDER */}
             <div className="flex items-center gap-2 my-5">
               <div className="flex-1 h-[1px] bg-[#e9dcc0] animate-divider"></div>
               <div className="text-[#c89b3c] text-xs">✝</div>
               <div className="flex-1 h-[1px] bg-[#e9dcc0] animate-divider"></div>
             </div>
 
-            {/* DATE SECTION */}
             <div className="flex items-center justify-between mb-6 px-2 text-center">
 
               <div className="flex-1">
@@ -159,17 +148,20 @@ function CommunionInviteCard({ name, event }) {
                 <p className="text-[10px] tracking-widest text-gray-400 uppercase">
                   At
                 </p>
+
+                {/* ✅ FIXED TIME */}
                 <p className="text-sm text-gray-700">
-                  {new Date(event?.event_date).toLocaleTimeString([], {
-                    hour: "2-digit",
+                  {new Date(event?.event_date).toLocaleTimeString("en-US", {
+                    hour: "numeric",
                     minute: "2-digit",
+                    hour12: true,
                   })}
                 </p>
+
               </div>
 
             </div>
 
-            {/* COUNTDOWN */}
             <div className="grid grid-cols-4 gap-2 mb-4">
               {["days", "hours", "mins", "secs"].map((unit, i) => (
                 <div
