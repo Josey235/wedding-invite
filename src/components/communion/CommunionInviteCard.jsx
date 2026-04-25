@@ -42,11 +42,21 @@ function CommunionInviteCard({ name, event }) {
           {/* TOP SECTION */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* FOG (moved slightly UP) */}
+            {/* 🌫️ FOG */}
             <img
               src={fog}
               className="absolute -top-12 w-[68%] opacity-95 blur-[1px]"
             />
+
+            {/* ✝ LEFT CORNER CROSS */}
+            <div className="absolute left-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
+              ✝
+            </div>
+
+            {/* ✝ RIGHT CORNER CROSS */}
+            <div className="absolute right-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
+              ✝
+            </div>
 
             {/* TEXT BLOCK */}
             <div className="relative z-10 flex flex-col items-center pt-4">
@@ -67,16 +77,6 @@ function CommunionInviteCard({ name, event }) {
               ">
                 Communion
               </h1>
-
-              {/* ✅ REAL FIX HERE */}
-              <div className="
-                text-[#c89b3c]
-                text-[22px]
-                mt-3   /* ← THIS creates proper gap */
-                animate-pulse
-              ">
-                ✝
-              </div>
 
             </div>
           </div>
