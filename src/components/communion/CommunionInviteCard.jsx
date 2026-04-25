@@ -39,24 +39,20 @@ function CommunionInviteCard({ name, event }) {
           {/* TOP SECTION */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* ✅ FIXED FOG (NO WHITE BOX, PROPER FADE) */}
+            {/* FOG */}
             <div className="absolute top-0 w-full flex justify-center">
               <img
                 src={fog}
-                className="
-                  w-[75%]
-                  opacity-95
-                  [mask-image:linear-gradient(to_bottom,black_80%,transparent)]
-                "
+                className="w-[75%] opacity-95 [mask-image:linear-gradient(to_bottom,black_80%,transparent)]"
               />
             </div>
 
             {/* CORNER CROSSES */}
-            <div className="absolute left-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
+            <div className="absolute left-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">
               ✝
             </div>
 
-            <div className="absolute right-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
+            <div className="absolute right-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">
               ✝
             </div>
 
@@ -113,38 +109,67 @@ function CommunionInviteCard({ name, event }) {
               Luke 22:19
             </p>
 
-            <div className="flex items-center gap-2 my-4">
-              <div className="flex-1 h-[1px] bg-[#e9dcc0]"></div>
+            {/* DIVIDER */}
+            <div className="flex items-center gap-2 my-5">
+              <div className="flex-1 h-[1px] bg-[#e9dcc0] animate-divider"></div>
               <div className="text-[#c89b3c] text-xs">✝</div>
-              <div className="flex-1 h-[1px] bg-[#e9dcc0]"></div>
+              <div className="flex-1 h-[1px] bg-[#e9dcc0] animate-divider"></div>
             </div>
 
-            <div className="flex justify-between items-center text-sm mb-4">
+            {/* 🔥 GOLD DATE SECTION */}
+            <div className="flex items-center justify-between mb-6 px-2 text-center">
 
-              <div>
-                <p className="text-xs text-gray-400">APRIL</p>
-                <p className="text-gray-600 text-xs">
-                  {new Date(event?.event_date).toDateString()}
+              {/* LEFT */}
+              <div className="flex-1">
+                <p className="text-[10px] tracking-widest text-gray-400 uppercase">
+                  {new Date(event?.event_date).toLocaleDateString("en-US", { weekday: "long" })}
                 </p>
               </div>
 
-              <div className="text-xl font-bold text-[#c89b3c]">
-                {new Date(event?.event_date).getDate()}
+              {/* DIVIDER */}
+              <div className="w-[1px] h-10 bg-[#e5d3a5] animate-divider"></div>
+
+              {/* CENTER */}
+              <div className="flex flex-col items-center px-4">
+
+                <p className="text-[10px] tracking-widest text-gray-400 uppercase">
+                  {new Date(event?.event_date).toLocaleDateString("en-US", { month: "long" })}
+                </p>
+
+                <p className="text-2xl font-semibold text-[#c89b3c] leading-none">
+                  {new Date(event?.event_date).getDate()}
+                </p>
+
+                <p className="text-[10px] text-gray-400">
+                  {new Date(event?.event_date).getFullYear()}
+                </p>
+
               </div>
 
-              <div className="text-gray-600 text-xs">
-                {new Date(event?.event_date).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+              {/* DIVIDER */}
+              <div className="w-[1px] h-10 bg-[#e5d3a5] animate-divider"></div>
+
+              {/* RIGHT */}
+              <div className="flex-1">
+                <p className="text-[10px] tracking-widest text-gray-400 uppercase">
+                  At
+                </p>
+                <p className="text-sm text-gray-700">
+                  {new Date(event?.event_date).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
               </div>
+
             </div>
 
+            {/* COUNTDOWN */}
             <div className="grid grid-cols-4 gap-2 mb-4">
               {["days", "hours", "mins", "secs"].map((unit, i) => (
                 <div
                   key={i}
-                  className="bg-white border border-[#efe3c8] rounded-lg py-2"
+                  className="bg-white border border-[#efe3c8] rounded-lg py-2 shadow-sm"
                 >
                   <p className="text-sm font-semibold">
                     {timeLeft[unit] ?? "0"}
@@ -168,6 +193,16 @@ function CommunionInviteCard({ name, event }) {
         @keyframes shine {
           0% { background-position: 0% center; }
           100% { background-position: 200% center; }
+        }
+
+        @keyframes dividerGlow {
+          0% { opacity: 0.6; transform: scaleX(0.9); }
+          50% { opacity: 1; transform: scaleX(1); }
+          100% { opacity: 0.6; transform: scaleX(0.9); }
+        }
+
+        .animate-divider {
+          animation: dividerGlow 3s ease-in-out infinite;
         }
       `}</style>
 
