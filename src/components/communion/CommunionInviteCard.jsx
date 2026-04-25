@@ -93,21 +93,31 @@ function CommunionInviteCard({ name, event }) {
             pt-8 pb-6 px-5 text-center
           ">
 
-            <h2 className="text-[22px] font-serif text-gray-800 tracking-wide">
-              {event?.child_name}
-            </h2>
-
+            {/* 🔥 1. BIBLE VERSE FIRST */}
             <p className="text-sm text-gray-500 italic">
-              Child of {event?.parent_names}
-            </p>
-
-            <p className="text-sm text-gray-500 italic mt-3">
               “This is my body given for you; do this in remembrance of me.”
             </p>
 
             <p className="text-xs text-gray-400 mt-1">
               Luke 22:19
             </p>
+
+            {/* 🔥 2. NAME */}
+            <h2 className="text-[22px] font-serif text-gray-800 tracking-wide mt-4">
+              {event?.child_name}
+            </h2>
+
+            {/* 🔥 3. INVITATION TEXT */}
+            <p className="
+  mt-3
+  text-[20px]
+  font-[Parisienne]
+  text-[#b8964c]
+  leading-relaxed
+  tracking-wide
+">
+  We invite you to join our daughter’s First Holy Communion
+</p>
 
             {/* DIVIDER */}
             <div className="flex items-center gap-2 my-5">
@@ -116,20 +126,17 @@ function CommunionInviteCard({ name, event }) {
               <div className="flex-1 h-[1px] bg-[#e9dcc0] animate-divider"></div>
             </div>
 
-            {/* 🔥 GOLD DATE SECTION */}
+            {/* DATE SECTION */}
             <div className="flex items-center justify-between mb-6 px-2 text-center">
 
-              {/* LEFT */}
               <div className="flex-1">
                 <p className="text-[10px] tracking-widest text-gray-400 uppercase">
                   {new Date(event?.event_date).toLocaleDateString("en-US", { weekday: "long" })}
                 </p>
               </div>
 
-              {/* DIVIDER */}
               <div className="w-[1px] h-10 bg-[#e5d3a5] animate-divider"></div>
 
-              {/* CENTER */}
               <div className="flex flex-col items-center px-4">
 
                 <p className="text-[10px] tracking-widest text-gray-400 uppercase">
@@ -146,10 +153,8 @@ function CommunionInviteCard({ name, event }) {
 
               </div>
 
-              {/* DIVIDER */}
               <div className="w-[1px] h-10 bg-[#e5d3a5] animate-divider"></div>
 
-              {/* RIGHT */}
               <div className="flex-1">
                 <p className="text-[10px] tracking-widest text-gray-400 uppercase">
                   At
