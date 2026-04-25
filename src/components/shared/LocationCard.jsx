@@ -1,12 +1,19 @@
-import { MapPin } from "lucide-react"; // if not installed, tell me
+import { MapPin } from "lucide-react";
 
 function LocationCard({ event, theme = "communion" }) {
   const isCommunion = theme === "communion";
 
+  // 🔥 SAFE LOCATION HANDLING (REAL FIX)
+  const locationQuery =
+    event?.location ||
+    event?.venue ||
+    event?.address ||
+    "";
+
   return (
     <div
       className={`
-        -mt-7 sm:-mt-5  /* 🔥 GAP FIX */
+        -mt-7 sm:-mt-5
         ${isCommunion 
           ? "bg-[#fdfaf4] border border-[#f1e4c8]" 
           : "bg-white"}
@@ -25,7 +32,7 @@ function LocationCard({ event, theme = "communion" }) {
 
       {/* LOCATION TEXT */}
       <p className="text-sm text-gray-500 mt-1">
-        {event?.location}
+        {locationQuery || "Location will be updated soon"}
       </p>
 
       {/* PREMIUM DIVIDER */}
@@ -37,7 +44,11 @@ function LocationCard({ event, theme = "communion" }) {
 
       {/* BUTTON */}
       <a
-        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event?.location)}`}
+        href={
+          locationQuery
+            ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locationQuery)}`
+            : "#"
+        }
         target="_blank"
         rel="noopener noreferrer"
         className={`
@@ -51,6 +62,7 @@ function LocationCard({ event, theme = "communion" }) {
               : "border-red-400 text-red-500 hover:bg-red-50"
           }
           hover:scale-[1.02] active:scale-95
+          ${!locationQuery && "opacity-50 pointer-events-none"}
         `}
       >
         <MapPin className="w-4 h-4" />
