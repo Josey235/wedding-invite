@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { supabase } from "../../supabase";
 
-function RSVPSection({ invite, setInvite }) {
+function RSVPSection({ invite, setInvite, theme = "communion" }) {
   const [status, setStatus] = useState(invite.rsvp);
   const [guests, setGuests] = useState(invite.guest_count || 1);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const isCommunion = theme === "communion";
 
   async function updateRSVP(newStatus) {
     setLoading(true);
+    setSuccess(false);
 
     const { data, error } = await supabase
       .from("invitees")
@@ -22,36 +26,54 @@ function RSVPSection({ invite, setInvite }) {
     if (!error) {
       setInvite(data);
       setStatus(newStatus);
+      setSuccess(true);
+
+      // auto hide success
+      setTimeout(() => setSuccess(false), 2500);
     }
 
     setLoading(false);
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl 
-                    px-5 sm:px-8 
-                    py-8 sm:py-10 
-                    space-y-5 sm:space-y-6">
+    <div
+      className={`
+        ${isCommunion ? "bg-[#fdfaf4] border border-[#f1e4c8]" : "bg-white"}
+        rounded-2xl shadow-xl 
+        px-5 sm:px-8 
+        py-7 sm:py-9 
+        space-y-5
+        transition-all duration-500
+        hover:shadow-2xl
+      `}
+    >
 
       {/* TITLE */}
-      <h2 className="uppercase tracking-widest 
-                     text-xs sm:text-sm 
-                     text-gray-400 text-center">
+      <h2 className="uppercase tracking-widest text-xs text-center text-[#c89b3c]">
         Will you attend?
       </h2>
+
+      {/* SUCCESS MESSAGE */}
+      {success && (
+        <div className="text-center text-sm text-green-600 animate-fadeIn">
+          ✔ Response saved successfully
+        </div>
+      )}
 
       {/* YES */}
       <button
         onClick={() => setStatus("attending")}
-        className={`w-full 
-        py-3 sm:py-4 
-        rounded-full border-2 
-        transition-all duration-300 font-medium text-sm sm:text-base
-        ${
-          status === "attending"
-            ? "border-primary text-primary"
-            : "border-gray-200 text-gray-600 hover:border-primary"
-        }`}
+        className={`
+          w-full py-3 rounded-full border-2 
+          transition-all duration-300 
+          font-medium
+          transform hover:scale-[1.02] active:scale-95
+          ${
+            status === "attending"
+              ? "border-[#c89b3c] text-[#c89b3c] shadow-md"
+              : "border-[#e5d7b5] text-gray-600 hover:border-[#c89b3c]"
+          }
+        `}
       >
         ✔ Yes, with joy!
       </button>
@@ -59,15 +81,17 @@ function RSVPSection({ invite, setInvite }) {
       {/* NO */}
       <button
         onClick={() => setStatus("declined")}
-        className={`w-full 
-        py-3 sm:py-4 
-        rounded-full border-2 
-        transition-all duration-300 font-medium text-sm sm:text-base
-        ${
-          status === "declined"
-            ? "border-red-400 text-red-400"
-            : "border-gray-200 text-gray-400 hover:border-red-400"
-        }`}
+        className={`
+          w-full py-3 rounded-full border-2 
+          transition-all duration-300 
+          font-medium
+          transform hover:scale-[1.02] active:scale-95
+          ${
+            status === "declined"
+              ? "border-[#c89b3c] text-[#c89b3c]"
+              : "border-[#e5d7b5] text-gray-400 hover:border-[#c89b3c]"
+          }
+        `}
       >
         ✖ Sorry, I can’t make it
       </button>
@@ -76,23 +100,26 @@ function RSVPSection({ invite, setInvite }) {
       {status === "attending" && (
         <div className="space-y-4 animate-fadeIn">
 
-          <p className="text-xs sm:text-sm text-gray-500 text-center">
+          <p className="text-sm text-gray-500 text-center">
             Number of guests
           </p>
 
           <div className="flex justify-center items-center gap-4">
+
             <button
               onClick={() => setGuests(Math.max(1, guests - 1))}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border text-lg"
+              className="w-10 h-10 rounded-full border border-[#e5d7b5]
+                         text-lg transition hover:scale-110 active:scale-90"
             >
               −
             </button>
 
-            <span className="text-lg sm:text-xl font-semibold">{guests}</span>
+            <span className="text-xl font-semibold">{guests}</span>
 
             <button
               onClick={() => setGuests(guests + 1)}
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border text-lg"
+              className="w-10 h-10 rounded-full border border-[#e5d7b5]
+                         text-lg transition hover:scale-110 active:scale-90"
             >
               +
             </button>
@@ -101,14 +128,18 @@ function RSVPSection({ invite, setInvite }) {
           <button
             onClick={() => updateRSVP("attending")}
             disabled={loading}
-            className="w-full mt-2 py-3 rounded-full 
-                       bg-primary text-white 
-                       text-sm sm:text-base
-                       font-medium tracking-wide 
-                       shadow-sm transition-all duration-300 
-                       hover:shadow-lg hover:-translate-y-0.5"
+            className={`
+              w-full py-3 rounded-full 
+              font-medium tracking-wide
+              transition-all duration-300
+              ${
+                loading
+                  ? "bg-gray-300 cursor-not-allowed"
+                  : "bg-[#c89b3c] text-white hover:shadow-lg hover:-translate-y-0.5"
+              }
+            `}
           >
-            Confirm Attendance
+            {loading ? "Saving..." : "Confirm Attendance"}
           </button>
 
         </div>
@@ -116,39 +147,42 @@ function RSVPSection({ invite, setInvite }) {
 
       {/* NO FLOW */}
       {status === "declined" && (
-        <div className="bg-red-50 border-l-4 border-red-300 
-                        p-4 sm:p-5 
-                        rounded-xl text-left space-y-4 animate-fadeIn">
+        <div className="bg-[#faf6ee] border-l-4 border-[#c89b3c]
+                        p-5 rounded-xl space-y-4 animate-fadeIn">
 
-          <h3 className="text-base sm:text-lg font-heading text-gray-700 text-center">
+          <h3 className="text-lg text-gray-700 text-center">
             We’ll Miss You 💔
           </h3>
 
-          <p className="text-xs sm:text-sm text-gray-500 italic leading-relaxed">
-            Thank you for letting us know. Though you won’t be with us in person,
-            you’ll be in our hearts as we celebrate this special day.
+          <p className="text-sm text-gray-500 italic text-center">
+            Though you won’t be with us in person, you’ll be in our hearts.
           </p>
 
           <button
             onClick={() => updateRSVP("declined")}
             disabled={loading}
-            className="w-full border border-red-400 text-red-500 
-                       py-3 rounded-full hover:bg-red-50 
-                       text-sm sm:text-base font-medium"
+            className={`
+              w-full py-3 rounded-full 
+              border border-[#c89b3c] text-[#c89b3c]
+              transition-all duration-300
+              ${
+                loading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-[#f6f0e4]"
+              }
+            `}
           >
-            Confirm Response
+            {loading ? "Saving..." : "Confirm Response"}
           </button>
 
           <button
             onClick={() => setStatus(null)}
-            className="w-full text-xs sm:text-sm text-gray-400 underline text-center"
+            className="w-full text-sm text-gray-400 underline text-center"
           >
             Change my mind — I’ll attend
           </button>
-
         </div>
       )}
-
     </div>
   );
 }
