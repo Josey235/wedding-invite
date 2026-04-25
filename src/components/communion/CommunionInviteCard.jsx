@@ -47,35 +47,37 @@ function CommunionInviteCard({ name, event }) {
           />
 
           {/* TITLE */}
-          <div className="absolute top-8 w-full text-center px-4">
+         <div className="absolute top-10 w-full flex flex-col items-center">
 
-  <p className="text-[10px] tracking-[0.45em] text-gray-600 font-light">
+  <p className="text-[10px] tracking-[0.5em] text-gray-600 font-light mb-1">
     FIRST HOLY
   </p>
 
   <h1 className="
-    text-[56px] leading-none
+    text-[52px] leading-[1]
     font-[Allura]
-    tracking-wide
+    text-center
     bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
     bg-[length:200%_auto]
     bg-clip-text text-transparent
     animate-[shine_4s_linear_infinite]
-    drop-shadow-[0_3px_8px_rgba(200,155,60,0.35)]
+    drop-shadow-[0_2px_6px_rgba(200,155,60,0.35)]
   ">
     Communion
   </h1>
 
+  {/* CROSS LOCKED TO TEXT */}
   <div className="
     text-[#c89b3c]
-    text-[28px]
-    -mt-1
+    text-[26px]
+    mt-1
     animate-pulse
-    drop-shadow-[0_3px_8px_rgba(200,155,60,0.45)]
+    drop-shadow-[0_2px_6px_rgba(200,155,60,0.45)]
   ">
     ✝
   </div>
-          </div>
+</div>
+
         </div>
 
         {/* 🔥 PREMIUM CARD */}
