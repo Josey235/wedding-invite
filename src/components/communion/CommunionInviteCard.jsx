@@ -31,42 +31,47 @@ function CommunionInviteCard({ name, event }) {
 
         {/* IMAGE */}
         <div className="relative aspect-[3/4] overflow-hidden">
-          <img
-            src={girl}
-            className="w-full h-full object-cover"
-          />
+          <img src={girl} className="w-full h-full object-cover" />
 
-          {/* LIGHT FADE */}
+          {/* TOP FADE */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-transparent"></div>
 
           {/* TOP SECTION */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* 🌫️ FOG */}
-            <img
-              src={fog}
-              className="absolute -top-12 w-[68%] opacity-95 blur-[1px]"
-            />
+            {/* 🔥 FIX 1: FOG POSITION + CONTRAST */}
+            <div className="absolute top-0 w-full flex justify-center">
+              <div className="relative w-[75%]">
 
-            {/* ✝ LEFT CORNER CROSS */}
+                <img
+                  src={fog}
+                  className="w-full opacity-95"
+                />
+
+                {/* subtle dark layer for contrast */}
+                <div className="absolute inset-0 bg-white/30"></div>
+
+              </div>
+            </div>
+
+            {/* ✝ CORNER CROSSES */}
             <div className="absolute left-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
               ✝
             </div>
 
-            {/* ✝ RIGHT CORNER CROSS */}
             <div className="absolute right-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
               ✝
             </div>
 
-            {/* TEXT BLOCK */}
-            <div className="relative z-10 flex flex-col items-center pt-4">
+            {/* 🔥 FIX 2: TEXT INSIDE FOG ZONE */}
+            <div className="relative z-10 flex flex-col items-center pt-10">
 
-              <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
+              <p className="text-[10px] tracking-[0.5em] text-gray-700 mb-1">
                 FIRST HOLY
               </p>
 
               <h1 className="
-                text-[42px]
+                text-[44px]
                 leading-none
                 font-[Allura]
                 text-center
@@ -74,6 +79,7 @@ function CommunionInviteCard({ name, event }) {
                 bg-[length:200%_auto]
                 bg-clip-text text-transparent
                 animate-[shine_4s_linear_infinite]
+                drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)]
               ">
                 Communion
               </h1>
