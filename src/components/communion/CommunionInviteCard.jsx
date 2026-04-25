@@ -39,47 +39,50 @@ function CommunionInviteCard({ name, event }) {
           {/* LIGHT FADE */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-transparent"></div>
 
-          {/* 🔥 FIXED TOP BLOCK */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
+          {/* 🔥 TOP OVERLAY (FIXED SYSTEM) */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* FOG (STRONGER + LOWER) */}
+            {/* FOG (ANCHOR TO TOP) */}
             <img
               src={fog}
-              className="absolute top-0 w-[65%] opacity-100 blur-[1px]"
+              className="absolute -top-8 w-[70%] opacity-100 blur-[1px]"
             />
 
-            {/* TEXT GROUP */}
-           <div className="relative z-10 flex flex-col items-center pt-5">
+            {/* TEXT */}
+            <div className="relative z-10 flex flex-col items-center pt-3">
 
-  <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
-    FIRST HOLY
-  </p>
+              <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
+                FIRST HOLY
+              </p>
 
-  <h1 className="
-    text-[42px]
-    leading-none
-    font-[Allura]
-    text-center
-    bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
-    bg-[length:200%_auto]
-    bg-clip-text text-transparent
-    animate-[shine_4s_linear_infinite]
-  ">
-    Communion
-  </h1>
+              <h1 className="
+                text-[42px]
+                leading-none
+                font-[Allura]
+                text-center
+                bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
+                bg-[length:200%_auto]
+                bg-clip-text text-transparent
+                animate-[shine_4s_linear_infinite]
+              ">
+                Communion
+              </h1>
 
-  {/* 🔥 FIXED CROSS */}
-  <div className="
-    absolute
-    top-[70px]   /* 🔥 control position here */
-    text-[#c89b3c]
-    text-[22px]
-    animate-pulse
-  ">
-    ✝
-  </div>
+            </div>
 
-</div>
+            {/* 🔥 CROSS (DETACHED FROM TEXT FLOW) */}
+            <div className="
+              absolute
+              top-[80px]
+              left-1/2
+              -translate-x-1/2
+              text-[#c89b3c]
+              text-[22px]
+              animate-pulse
+            ">
+              ✝
+            </div>
+
           </div>
         </div>
 
@@ -165,6 +168,7 @@ function CommunionInviteCard({ name, event }) {
         </div>
       </div>
 
+      {/* SHINE ANIMATION */}
       <style>{`
         @keyframes shine {
           0% { background-position: 0% center; }
