@@ -36,7 +36,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
   return (
     <div
       className={`
-        -mt-8 sm:-mt-4  /* 🔥 GAP FIX */
+        -mt-7 sm:-mt-4  /* 🔥 GAP FIX */
         ${isCommunion ? "bg-[#fdfaf4] border border-[#f1e4c8]" : "bg-white"}
         rounded-2xl shadow-xl 
         px-5 sm:px-8 
