@@ -39,17 +39,17 @@ function CommunionInviteCard({ name, event }) {
           {/* LIGHT FADE */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-transparent"></div>
 
-          {/* 🔥 TOP OVERLAY */}
+          {/* TOP SECTION */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* FOG */}
+            {/* FOG (moved slightly UP) */}
             <img
               src={fog}
-              className="absolute -top-8 w-[70%] opacity-100 blur-[1px]"
+              className="absolute -top-12 w-[68%] opacity-95 blur-[1px]"
             />
 
-            {/* TEXT + CROSS (LOCKED TOGETHER) */}
-            <div className="relative z-10 flex flex-col items-center pt-3">
+            {/* TEXT BLOCK */}
+            <div className="relative z-10 flex flex-col items-center pt-4">
 
               <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
                 FIRST HOLY
@@ -68,22 +68,21 @@ function CommunionInviteCard({ name, event }) {
                 Communion
               </h1>
 
-              {/* ✅ FIXED CROSS — NOW STICKS TO TEXT */}
+              {/* ✅ REAL FIX HERE */}
               <div className="
                 text-[#c89b3c]
                 text-[22px]
-                mt-1
+                mt-3   /* ← THIS creates proper gap */
                 animate-pulse
               ">
                 ✝
               </div>
 
             </div>
-
           </div>
         </div>
 
-        {/* CARD BODY */}
+        {/* BODY */}
         <div className="relative -mt-20 px-4 pb-6">
 
           <div className="
@@ -111,14 +110,12 @@ function CommunionInviteCard({ name, event }) {
               Luke 22:19
             </p>
 
-            {/* DIVIDER */}
             <div className="flex items-center gap-2 my-4">
               <div className="flex-1 h-[1px] bg-[#e9dcc0]"></div>
               <div className="text-[#c89b3c] text-xs">✝</div>
               <div className="flex-1 h-[1px] bg-[#e9dcc0]"></div>
             </div>
 
-            {/* DATE */}
             <div className="flex justify-between items-center text-sm mb-4">
 
               <div>
@@ -140,7 +137,6 @@ function CommunionInviteCard({ name, event }) {
               </div>
             </div>
 
-            {/* COUNTDOWN */}
             <div className="grid grid-cols-4 gap-2 mb-4">
               {["days", "hours", "mins", "secs"].map((unit, i) => (
                 <div
