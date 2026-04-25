@@ -29,7 +29,7 @@ function CommunionInviteCard({ name, event }) {
 
       <div className="relative rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] bg-white">
 
-        {/* IMAGE */}
+        {/* IMAGE SECTION */}
         <div className="relative aspect-[3/4] overflow-hidden">
 
           <img
@@ -37,50 +37,54 @@ function CommunionInviteCard({ name, event }) {
             className="w-full h-full object-cover scale-105"
           />
 
-          {/* DEPTH LIGHT */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-transparent to-transparent"></div>
+          {/* LIGHT OVERLAY */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-transparent"></div>
 
-          {/* FOG */}
-          <img
-            src={fog}
-            className="absolute top-0 left-1/2 -translate-x-1/2 w-[55%] opacity-95 blur-[2px]"
-          />
+          {/* 🔥 TOP OVERLAY SYSTEM (FIXED) */}
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-          {/* TITLE */}
-         <div className="absolute top-10 w-full flex flex-col items-center">
+            {/* FOG */}
+            <img
+              src={fog}
+              className="absolute top-0 w-[50%] opacity-90 blur-[2px] z-0"
+            />
 
-  <p className="text-[10px] tracking-[0.5em] text-gray-600 font-light mb-1">
-    FIRST HOLY
-  </p>
+            {/* CONTENT LOCKED INSIDE FOG */}
+            <div className="relative z-10 flex flex-col items-center pt-6">
 
-  <h1 className="
-    text-[52px] leading-[1]
-    font-[Allura]
-    text-center
-    bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
-    bg-[length:200%_auto]
-    bg-clip-text text-transparent
-    animate-[shine_4s_linear_infinite]
-    drop-shadow-[0_2px_6px_rgba(200,155,60,0.35)]
-  ">
-    Communion
-  </h1>
+              <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
+                FIRST HOLY
+              </p>
 
-  {/* CROSS LOCKED TO TEXT */}
-  <div className="
-    text-[#c89b3c]
-    text-[26px]
-    mt-1
-    animate-pulse
-    drop-shadow-[0_2px_6px_rgba(200,155,60,0.45)]
-  ">
-    ✝
-  </div>
-</div>
+              <h1 className="
+                text-[48px] leading-none
+                font-[Allura]
+                text-center
+                bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
+                bg-[length:200%_auto]
+                bg-clip-text text-transparent
+                animate-[shine_4s_linear_infinite]
+                drop-shadow-[0_2px_6px_rgba(200,155,60,0.35)]
+              ">
+                Communion
+              </h1>
 
+              {/* CROSS (FIXED POSITION) */}
+              <div className="
+                text-[#c89b3c]
+                text-[26px]
+                mt-1
+                animate-pulse
+                drop-shadow-[0_2px_6px_rgba(200,155,60,0.45)]
+              ">
+                ✝
+              </div>
+
+            </div>
+          </div>
         </div>
 
-        {/* 🔥 PREMIUM CARD */}
+        {/* 🔥 PREMIUM CARD BODY */}
         <div className="relative -mt-24 px-4 pb-6">
 
           <div className="
@@ -93,7 +97,7 @@ function CommunionInviteCard({ name, event }) {
             pt-10 pb-6 px-5 text-center
           ">
 
-            {/* TOP GLOW LINE */}
+            {/* GOLD LINE */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-[2px] bg-gradient-to-r from-transparent via-[#e6c77a] to-transparent"></div>
 
             {/* NAME */}
@@ -143,7 +147,7 @@ function CommunionInviteCard({ name, event }) {
               </div>
             </div>
 
-            {/* COUNTDOWN */}
+            {/* COUNTDOWN (VISIBLE + FIXED) */}
             <div className="grid grid-cols-4 gap-2 mb-5">
               {["days", "hours", "mins", "secs"].map((unit, i) => (
                 <div
@@ -176,7 +180,7 @@ function CommunionInviteCard({ name, event }) {
 
       </div>
 
-      {/* ✨ SHIMMER ANIMATION */}
+      {/* SHIMMER */}
       <style>{`
         @keyframes shine {
           0% { background-position: 0% center; }
