@@ -27,8 +27,6 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
       setInvite(data);
       setStatus(newStatus);
       setSuccess(true);
-
-      // auto hide success
       setTimeout(() => setSuccess(false), 2500);
     }
 
@@ -38,6 +36,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
   return (
     <div
       className={`
+        -mt-10 sm:-mt-6  /* 🔥 GAP FIX */
         ${isCommunion ? "bg-[#fdfaf4] border border-[#f1e4c8]" : "bg-white"}
         rounded-2xl shadow-xl 
         px-5 sm:px-8 
@@ -48,19 +47,16 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
       `}
     >
 
-      {/* TITLE */}
       <h2 className="uppercase tracking-widest text-xs text-center text-[#c89b3c]">
         Will you attend?
       </h2>
 
-      {/* SUCCESS MESSAGE */}
       {success && (
         <div className="text-center text-sm text-green-600 animate-fadeIn">
           ✔ Response saved successfully
         </div>
       )}
 
-      {/* YES */}
       <button
         onClick={() => setStatus("attending")}
         className={`
@@ -78,7 +74,6 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
         ✔ Yes, with joy!
       </button>
 
-      {/* NO */}
       <button
         onClick={() => setStatus("declined")}
         className={`
@@ -96,7 +91,6 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
         ✖ Sorry, I can’t make it
       </button>
 
-      {/* YES FLOW */}
       {status === "attending" && (
         <div className="space-y-4 animate-fadeIn">
 
@@ -145,7 +139,6 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
         </div>
       )}
 
-      {/* NO FLOW */}
       {status === "declined" && (
         <div className="bg-[#faf6ee] border-l-4 border-[#c89b3c]
                         p-5 rounded-xl space-y-4 animate-fadeIn">
