@@ -33,28 +33,25 @@ function CommunionInviteCard({ name, event }) {
         <div className="relative aspect-[3/4] overflow-hidden">
           <img src={girl} className="w-full h-full object-cover" />
 
-          {/* TOP FADE */}
+          {/* LIGHT FADE */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-transparent to-transparent"></div>
 
           {/* TOP SECTION */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full flex flex-col items-center">
 
-            {/* 🔥 FIX 1: FOG POSITION + CONTRAST */}
+            {/* ✅ FIXED FOG (NO WHITE BOX, PROPER FADE) */}
             <div className="absolute top-0 w-full flex justify-center">
-              <div className="relative w-[75%]">
-
-                <img
-                  src={fog}
-                  className="w-full opacity-95"
-                />
-
-                {/* subtle dark layer for contrast */}
-                <div className="absolute inset-0 bg-white/30"></div>
-
-              </div>
+              <img
+                src={fog}
+                className="
+                  w-[75%]
+                  opacity-95
+                  [mask-image:linear-gradient(to_bottom,black_80%,transparent)]
+                "
+              />
             </div>
 
-            {/* ✝ CORNER CROSSES */}
+            {/* CORNER CROSSES */}
             <div className="absolute left-4 top-10 text-[#c89b3c] text-[24px] animate-pulse">
               ✝
             </div>
@@ -63,7 +60,7 @@ function CommunionInviteCard({ name, event }) {
               ✝
             </div>
 
-            {/* 🔥 FIX 2: TEXT INSIDE FOG ZONE */}
+            {/* TEXT */}
             <div className="relative z-10 flex flex-col items-center pt-10">
 
               <p className="text-[10px] tracking-[0.5em] text-gray-700 mb-1">
