@@ -6,7 +6,7 @@ function LocationCard({ event, theme = "communion" }) {
   return (
     <div
       className={`
-        -mt-8 sm:-mt-6   /* 🔥 GAP FIX */
+        -mt-7 sm:-mt-5  /* 🔥 GAP FIX */
         ${isCommunion 
           ? "bg-[#fdfaf4] border border-[#f1e4c8]" 
           : "bg-white"}
