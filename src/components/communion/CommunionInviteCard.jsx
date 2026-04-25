@@ -49,36 +49,37 @@ function CommunionInviteCard({ name, event }) {
             />
 
             {/* TEXT GROUP */}
-            <div className="relative z-10 flex flex-col items-center pt-5">
+           <div className="relative z-10 flex flex-col items-center pt-5">
 
-              <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
-                FIRST HOLY
-              </p>
+  <p className="text-[10px] tracking-[0.5em] text-gray-600 mb-1">
+    FIRST HOLY
+  </p>
 
-              <h1 className="
-                text-[42px]
-                leading-none
-                font-[Allura]
-                text-center
-                bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
-                bg-[length:200%_auto]
-                bg-clip-text text-transparent
-                animate-[shine_4s_linear_infinite]
-              ">
-                Communion
-              </h1>
+  <h1 className="
+    text-[42px]
+    leading-none
+    font-[Allura]
+    text-center
+    bg-[linear-gradient(120deg,#c89b3c,#f4e2a1,#c89b3c)]
+    bg-[length:200%_auto]
+    bg-clip-text text-transparent
+    animate-[shine_4s_linear_infinite]
+  ">
+    Communion
+  </h1>
 
-              {/* CROSS — MOVED UP */}
-              <div className="
-                text-[#c89b3c]
-                text-[22px]
-                -mt-1
-                animate-pulse
-              ">
-                ✝
-              </div>
+  {/* 🔥 FIXED CROSS */}
+  <div className="
+    absolute
+    top-[70px]   /* 🔥 control position here */
+    text-[#c89b3c]
+    text-[22px]
+    animate-pulse
+  ">
+    ✝
+  </div>
 
-            </div>
+</div>
           </div>
         </div>
 
