@@ -2,7 +2,9 @@ import { useMemo } from "react";
 
 function BlessingAnimation() {
   const petals = useMemo(() => {
-    return Array.from({ length: 8 }).map((_, i) => ({
+    const count = window.innerWidth < 640 ? 12 : 20; // 🔥 increased count
+
+    return Array.from({ length: count }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
       duration: 8 + Math.random() * 5,
@@ -24,6 +26,7 @@ function BlessingAnimation() {
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
             backgroundImage: `url('/petal.png')`,
+            opacity: 0.5, // 🔥 slightly increased from 0.35–0.4
           }}
         />
       ))}
