@@ -2,15 +2,33 @@ import { useMemo } from "react";
 
 function BlessingAnimation() {
   const petals = useMemo(() => {
-    const count = window.innerWidth < 640 ? 12 : 20; // 🔥 increased count
+    const baseCount = window.innerWidth < 640 ? 10 : 18;
 
-    return Array.from({ length: count }).map((_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      duration: 8 + Math.random() * 5,
-      delay: Math.random() * 4,
-      size: 20 + Math.random() * 10,
-    }));
+    return Array.from({ length: baseCount }).map((_, i) => {
+      const depth = Math.random(); // 🔥 depth layer (0–1)
+
+      return {
+        id: i,
+        left: Math.random() * 100,
+
+        // 🎯 depth-based size
+        size: 14 + depth * 20,
+
+        // 🎯 depth-based speed (far = slower)
+        duration: 10 + depth * 10,
+
+        delay: Math.random() * 6,
+
+        // 🎯 slight horizontal drift
+        drift: (Math.random() - 0.5) * 40,
+
+        // 🎯 opacity based on depth
+        opacity: 0.25 + depth * 0.35,
+
+        // 🎯 blur for depth realism
+        blur: depth > 0.6 ? 1.2 : depth > 0.3 ? 0.6 : 0,
+      };
+    });
   }, []);
 
   return (
@@ -26,7 +44,11 @@ function BlessingAnimation() {
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
             backgroundImage: `url('/petal.png')`,
-            opacity: 0.5, // 🔥 slightly increased from 0.35–0.4
+
+            opacity: p.opacity,
+            filter: `blur(${p.blur}px)`,
+
+            transform: `translateX(${p.drift}px)`,
           }}
         />
       ))}
