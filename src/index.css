@@ -8,7 +8,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ✅ REMOVE DEFAULT BROWSER GAP (THIS IS ONE ROOT CAUSE) */
+/* ✅ REMOVE DEFAULT BROWSER GAP */
 body {
   margin: 0;
   padding: 0;
@@ -16,39 +16,40 @@ body {
   background: #fdf8f7;
 }
 
-/* ✅ CONTROL GLOBAL SECTION SPACING (THIS FIXES YOUR GAP ISSUE) */
+/* ✅ CONTROL GLOBAL SECTION SPACING */
 section {
   margin: 0;
   padding: 0;
 }
 
-/* OPTIONAL: tighter stacking if you use wrappers */
 .page-stack > * + * {
-  margin-top: 16px; /* controlled spacing instead of random gaps */
+  margin-top: 16px;
 }
 
-/* 🌸 FLOWING PETAL ANIMATION */
+/* 🌸 FLOWING PETAL ANIMATION (SINGLE CLEAN VERSION ONLY) */
 
 @keyframes floatDown {
   0% {
     transform: translateY(-120px) translateX(0px) rotate(0deg) scale(0.7);
     opacity: 0;
   }
-  10% { opacity: 0.5; }
-  25% { transform: translateY(25vh) translateX(40px) rotate(90deg); }
-  50% { transform: translateY(55vh) translateX(-30px) rotate(180deg); }
-  75% { transform: translateY(80vh) translateX(20px) rotate(270deg); }
+
+  10% {
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translateY(60vh) translateX(30px) rotate(180deg);
+  }
+
   100% {
-    transform: translateY(120vh) translateX(-10px) rotate(360deg) scale(1);
+    transform: translateY(120vh) translateX(-20px) rotate(360deg);
     opacity: 0;
   }
 }
 
 .animate-fall {
-  animation-name: floatDown;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  pointer-events: none;
+  animation: floatDown linear infinite;
 }
 
 /* ✨ FADE ANIMATION */
@@ -88,18 +89,23 @@ section {
   font-family: 'Great Vibes', cursive;
 }
 
-/* 🌸 PETAL */
+/* 🌸 PETAL (🔥 FIXED — THIS WAS YOUR ISSUE) */
 
 .petal {
-  position: fixed;
-  top: -100px;
+  position: absolute; /* ✅ changed from fixed */
+  top: -40px;         /* ✅ adjusted */
+
   width: 30px;
   height: 30px;
+
   background-size: contain;
   background-repeat: no-repeat;
-  opacity: 0.7;
+
+  opacity: 0.4;       /* ✅ subtle premium feel */
+
   pointer-events: none;
-  z-index: 50;
+
+  z-index: 1;         /* ✅ behind content */
 }
 
 /* 🌟 PAPER TEXTURE */

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import girl from "../../assets/communion.png";
 import fog from "../../assets/fog.png";
+import BlessingAnimation from "./BlessingAnimation";
 
 function CommunionInviteCard({ name, event }) {
   const [timeLeft, setTimeLeft] = useState({});
@@ -28,6 +29,9 @@ function CommunionInviteCard({ name, event }) {
     <div className="w-full max-w-lg mx-auto px-3">
 
       <div className="relative rounded-[28px] overflow-hidden shadow-xl bg-white">
+
+        {/* ✅ THIS WAS MISSING — CORE FIX */}
+        <BlessingAnimation />
 
         {/* IMAGE */}
         <div className="relative aspect-[3/4] overflow-hidden">
@@ -149,7 +153,6 @@ function CommunionInviteCard({ name, event }) {
                   At
                 </p>
 
-                {/* ✅ FIXED TIME */}
                 <p className="text-sm text-gray-700">
                   {new Date(event?.event_date).toLocaleTimeString("en-US", {
                     hour: "numeric",
