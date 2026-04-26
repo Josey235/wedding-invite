@@ -2,31 +2,31 @@ import { useMemo } from "react";
 
 function BlessingAnimation() {
   const petals = useMemo(() => {
-    const baseCount = window.innerWidth < 640 ? 10 : 18;
+    const count = window.innerWidth < 640 ? 14 : 22;
 
-    return Array.from({ length: baseCount }).map((_, i) => {
-      const depth = Math.random(); // 🔥 depth layer (0–1)
+    return Array.from({ length: count }).map((_, i) => {
+      const depth = Math.random();
 
       return {
         id: i,
         left: Math.random() * 100,
 
-        // 🎯 depth-based size
-        size: 14 + depth * 20,
+        // size variation
+        size: 16 + depth * 22,
 
-        // 🎯 depth-based speed (far = slower)
-        duration: 10 + depth * 10,
+        // slightly faster for continuity
+        duration: 8 + depth * 8,
 
-        delay: Math.random() * 6,
+        // 🔥 key fix: spread delays tightly (continuous flow)
+        delay: Math.random() * 3,
 
-        // 🎯 slight horizontal drift
-        drift: (Math.random() - 0.5) * 40,
+        drift: (Math.random() - 0.5) * 30,
 
-        // 🎯 opacity based on depth
-        opacity: 0.25 + depth * 0.35,
+        // 🔥 increased opacity (clearer petals)
+        opacity: 0.45 + depth * 0.4,
 
-        // 🎯 blur for depth realism
-        blur: depth > 0.6 ? 1.2 : depth > 0.3 ? 0.6 : 0,
+        // reduced blur so petals are visible
+        blur: depth > 0.6 ? 0.8 : depth > 0.3 ? 0.4 : 0,
       };
     });
   }, []);
