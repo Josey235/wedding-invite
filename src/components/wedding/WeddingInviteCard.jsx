@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function InviteCard({ name }) {
-  const weddingDate = new Date("2026-07-30T10:30:00");
+  const weddingDate = new Date("2026-05-10T11:30");
 
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
 
@@ -28,7 +28,7 @@ function InviteCard({ name }) {
 
       <div className="space-y-6">
 
-        <h1 className="font-script text-4xl text-primary">J & B</h1>
+        <h1 className="font-script text-4xl text-primary">A & S</h1>.
 
         <p className="italic text-gray-500 text-sm">
           " My command is this: Love each other as I have loved you."
@@ -43,11 +43,11 @@ function InviteCard({ name }) {
 
         <div className="space-y-2">
           <h2 className="font-heading text-3xl text-gray-800">
-            Johny Joseph
+            Anto
           </h2>
           <div className="text-primary text-xl">♡</div>
           <h2 className="font-heading text-3xl text-gray-800">
-            Beena Thomas
+            Soja
           </h2>
         </div>
 
@@ -57,17 +57,17 @@ function InviteCard({ name }) {
 
         <div className="border rounded-xl flex justify-between items-center px-4 py-4">
           <div className="text-left">
-            <p className="text-xs text-gray-400 uppercase">July</p>
-            <p className="text-sm text-gray-600">2026, Thursday</p>
+            <p className="text-xs text-gray-400 uppercase">May</p>
+            <p className="text-sm text-gray-600">2026, Sunday</p>
           </div>
 
-          <div className="text-4xl font-heading text-primary">30</div>
+          <div className="text-4xl font-heading text-primary">10</div>
 
-          <div className="text-sm text-gray-600">10:30 AM</div>
+          <div className="text-sm text-gray-600">11:30 AM</div>
         </div>
 
         <p className="uppercase text-sm tracking-widest text-gray-700">
-          Lourde Matha Church , Mammood
+          St.Antony's Church,Chenappady
         </p>
 
         <div>
