@@ -24,54 +24,64 @@ function InviteCard({ name, showGuestTag = false }) {
   }, []);
 
   return (
-    <div className="card">
+    <div className="card bg-gradient-to-br from-[#faf7f2] via-[#fdfaf6] to-[#f5efe6] border border-[#e8ded0] rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] px-6 py-10">
 
-      <div className="space-y-6">
+      <div className="space-y-7 text-center">
 
-        <h1 className="font-script text-4xl text-primary">A & S</h1>.
+        <h1 className="font-script text-4xl text-[#bfa46f] tracking-wide">
+          A & S
+        </h1>
 
-        <p className="italic text-gray-500 text-sm">
+        <p className="italic text-[#7a7a7a] text-sm leading-relaxed">
           " My command is this: Love each other as I have loved you."
-          <span className="block mt-2 font-semibold">
+          <span className="block mt-2 font-semibold text-[#5c5c5c]">
             — John 15:12 —
           </span>
         </p>
 
-        <p className="uppercase text-xs tracking-widest text-gray-400">
+        <p className="uppercase text-[10px] tracking-[0.3em] text-[#a8a29e]">
           Together with their families
         </p>
 
-        <div className="space-y-2">
-          <h2 className="font-heading text-3xl text-gray-800">
+        <div className="space-y-3">
+          <h2 className="font-heading text-3xl text-[#2f2f2f]">
             Anto
           </h2>
-          <div className="text-primary text-xl">♡</div>
-          <h2 className="font-heading text-3xl text-gray-800">
+
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-10 bg-gradient-to-r from-transparent via-[#c8a96a] to-transparent"></span>
+            <span className="text-[#c8a96a] text-lg">✦</span>
+            <span className="h-px w-10 bg-gradient-to-r from-transparent via-[#c8a96a] to-transparent"></span>
+          </div>
+
+          <h2 className="font-heading text-3xl text-[#2f2f2f]">
             Soja
           </h2>
         </div>
 
-        <p className="uppercase text-xs tracking-widest text-gray-400">
+        <p className="uppercase text-[10px] tracking-[0.3em] text-[#a8a29e]">
           Request the honor of your presence
         </p>
 
-        <div className="border rounded-xl flex justify-between items-center px-4 py-4">
+        <div className="border border-[#e8ded0] bg-white/60 backdrop-blur-md rounded-2xl flex justify-between items-center px-5 py-5 shadow-sm">
           <div className="text-left">
-            <p className="text-xs text-gray-400 uppercase">May</p>
-            <p className="text-sm text-gray-600">2026, Sunday</p>
+            <p className="text-[10px] text-[#a8a29e] uppercase tracking-widest">
+              May
+            </p>
+            <p className="text-sm text-[#5c5c5c]">2026, Sunday</p>
           </div>
 
-          <div className="text-4xl font-heading text-primary">10</div>
+          <div className="text-4xl font-heading text-[#bfa46f]">10</div>
 
-          <div className="text-sm text-gray-600">11:30 AM</div>
+          <div className="text-sm text-[#5c5c5c]">11:30 AM</div>
         </div>
 
-        <p className="uppercase text-sm tracking-widest text-gray-700">
-          St.Antony's Church,Chenappady
+        <p className="uppercase text-xs tracking-[0.2em] text-[#4b4b4b]">
+          St.Antony's Church, Chenappady
         </p>
 
         <div>
-          <p className="uppercase text-xs text-gray-400 tracking-widest mb-3">
+          <p className="uppercase text-[10px] text-[#a8a29e] tracking-[0.3em] mb-4">
             Wedding Countdown
           </p>
 
@@ -82,17 +92,25 @@ function InviteCard({ name, showGuestTag = false }) {
               { label: "Mins", value: timeLeft.minutes },
               { label: "Secs", value: timeLeft.seconds },
             ].map((item, i) => (
-              <div key={i} className="border rounded-xl py-3">
-                <p className="text-xl font-semibold">{item.value}</p>
-                <p className="text-[10px] text-gray-400">{item.label}</p>
+              <div
+                key={i}
+                className="bg-white/70 backdrop-blur-md border border-[#ece5d8] rounded-xl py-3 shadow-sm"
+              >
+                <p className="text-xl font-semibold text-[#3e3e3e]">
+                  {item.value}
+                </p>
+                <p className="text-[10px] text-[#a8a29e] tracking-wide">
+                  {item.label}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
         {showGuestTag && (
-          <p className="text-xs text-gray-400 italic">
-            Invited Guest: <span className="text-gray-600">{name}</span>
+          <p className="text-xs text-[#9a9a9a] italic">
+            Invited Guest:{" "}
+            <span className="text-[#4b4b4b]">{name}</span>
           </p>
         )}
 
