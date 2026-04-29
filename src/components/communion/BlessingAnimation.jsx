@@ -1,59 +1,45 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
+import petalImg from "../../assets/petal.png";
 
-function BlessingAnimation() {
-  const petals = useMemo(() => {
-    const count = window.innerWidth < 640 ? 14 : 22;
+export default function Petals() {
+  const [petals, setPetals] = useState([]);
 
-    return Array.from({ length: count }).map((_, i) => {
-      const depth = Math.random();
+  useEffect(() => {
+    const generated = Array.from({ length: 25 }).map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      size: 30 + Math.random() * 40,
+      duration: 6 + Math.random() * 8,
+      delay: Math.random() * 5,
+      opacity: 0.5 + Math.random() * 0.4,
+      blur: Math.random() * 1.5,
+      rotation: Math.random() * 360,
+    }));
 
-      return {
-        id: i,
-        left: Math.random() * 100,
-
-        // size variation
-        size: 16 + depth * 22,
-
-        // slightly faster for continuity
-        duration: 8 + depth * 8,
-
-        // 🔥 key fix: spread delays tightly (continuous flow)
-        delay: Math.random() * 3,
-
-        drift: (Math.random() - 0.5) * 30,
-
-        // 🔥 increased opacity (clearer petals)
-        opacity: 0.45 + depth * 0.4,
-
-        // reduced blur so petals are visible
-        blur: depth > 0.6 ? 0.8 : depth > 0.3 ? 0.4 : 0,
-      };
-    });
+    setPetals(generated);
   }, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none z-[2]">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-[50]">
       {petals.map((p) => (
-        <div
+        <img
           key={p.id}
-          className="petal animate-fall"
+          src={petalImg}
+          alt="petal"
+          className="absolute animate-fall"
           style={{
             left: `${p.left}%`,
             width: `${p.size}px`,
-            height: `${p.size}px`,
+            top: "-60px",
+            opacity: p.opacity * 0.6, // softened visibility
+            transform: `rotate(${p.rotation}deg)`,
+            filter: `blur(${p.blur}px) brightness(1.1)`,
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
-            backgroundImage: `url('/petal.png')`,
-
-            opacity: p.opacity,
-            filter: `blur(${p.blur}px)`,
-
-            transform: `translateX(${p.drift}px)`,
+            animationTimingFunction: "ease-in-out",
           }}
         />
       ))}
     </div>
   );
 }
-
-export default BlessingAnimation;
