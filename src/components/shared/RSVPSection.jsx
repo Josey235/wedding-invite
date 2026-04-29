@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { supabase } from "../../supabase";
 
-function RSVPSection({ invite, setInvite, theme = "communion" }) {
+function RSVPSection({ invite, setInvite, theme = "wedding" }) {
   const [status, setStatus] = useState(invite.rsvp);
   const [guests, setGuests] = useState(invite.guest_count || 1);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const isCommunion = theme === "communion";
+  const isWedding = theme === "wedding";
 
   async function updateRSVP(newStatus) {
     setLoading(true);
@@ -36,8 +36,8 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
   return (
     <div
       className={`
-        -mt-7 sm:-mt-4  /* 🔥 GAP FIX */
-        ${isCommunion ? "bg-[#fdfaf4] border border-[#f1e4c8]" : "bg-white"}
+        -mt-10 sm:-mt-12
+        ${isWedding ? "bg-[#fff5f5] border border-[#fecaca]" : "bg-white"}
         rounded-2xl shadow-xl 
         px-5 sm:px-8 
         py-7 sm:py-9 
@@ -47,7 +47,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
       `}
     >
 
-      <h2 className="uppercase tracking-widest text-xs text-center text-[#c89b3c]">
+      <h2 className="uppercase tracking-widest text-xs text-center text-[#dc2626]">
         Will you attend?
       </h2>
 
@@ -57,6 +57,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
         </div>
       )}
 
+      {/* YES */}
       <button
         onClick={() => setStatus("attending")}
         className={`
@@ -66,14 +67,15 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
           transform hover:scale-[1.02] active:scale-95
           ${
             status === "attending"
-              ? "border-[#c89b3c] text-[#c89b3c] shadow-md"
-              : "border-[#e5d7b5] text-gray-600 hover:border-[#c89b3c]"
+              ? "border-[#dc2626] text-[#dc2626] shadow-md"
+              : "border-[#fecaca] text-gray-600 hover:border-[#dc2626]"
           }
         `}
       >
         ✔ Yes, with joy!
       </button>
 
+      {/* NO */}
       <button
         onClick={() => setStatus("declined")}
         className={`
@@ -83,8 +85,8 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
           transform hover:scale-[1.02] active:scale-95
           ${
             status === "declined"
-              ? "border-[#c89b3c] text-[#c89b3c]"
-              : "border-[#e5d7b5] text-gray-400 hover:border-[#c89b3c]"
+              ? "border-[#dc2626] text-[#dc2626]"
+              : "border-[#fecaca] text-gray-400 hover:border-[#dc2626]"
           }
         `}
       >
@@ -102,8 +104,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
 
             <button
               onClick={() => setGuests(Math.max(1, guests - 1))}
-              className="w-10 h-10 rounded-full border border-[#e5d7b5]
-                         text-lg transition hover:scale-110 active:scale-90"
+              className="w-10 h-10 rounded-full border border-[#fecaca] text-lg"
             >
               −
             </button>
@@ -112,8 +113,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
 
             <button
               onClick={() => setGuests(guests + 1)}
-              className="w-10 h-10 rounded-full border border-[#e5d7b5]
-                         text-lg transition hover:scale-110 active:scale-90"
+              className="w-10 h-10 rounded-full border border-[#fecaca] text-lg"
             >
               +
             </button>
@@ -125,11 +125,10 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
             className={`
               w-full py-3 rounded-full 
               font-medium tracking-wide
-              transition-all duration-300
               ${
                 loading
-                  ? "bg-gray-300 cursor-not-allowed"
-                  : "bg-[#c89b3c] text-white hover:shadow-lg hover:-translate-y-0.5"
+                  ? "bg-gray-300"
+                  : "bg-[#dc2626] text-white hover:shadow-lg"
               }
             `}
           >
@@ -140,8 +139,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
       )}
 
       {status === "declined" && (
-        <div className="bg-[#faf6ee] border-l-4 border-[#c89b3c]
-                        p-5 rounded-xl space-y-4 animate-fadeIn">
+        <div className="bg-[#fff5f5] border-l-4 border-[#dc2626] p-5 rounded-xl space-y-4 animate-fadeIn">
 
           <h3 className="text-lg text-gray-700 text-center">
             We’ll Miss You 💔
@@ -154,16 +152,7 @@ function RSVPSection({ invite, setInvite, theme = "communion" }) {
           <button
             onClick={() => updateRSVP("declined")}
             disabled={loading}
-            className={`
-              w-full py-3 rounded-full 
-              border border-[#c89b3c] text-[#c89b3c]
-              transition-all duration-300
-              ${
-                loading
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-[#f6f0e4]"
-              }
-            `}
+            className="w-full py-3 rounded-full border border-[#dc2626] text-[#dc2626]"
           >
             {loading ? "Saving..." : "Confirm Response"}
           </button>

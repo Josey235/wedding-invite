@@ -1,9 +1,8 @@
 import { MapPin } from "lucide-react";
 
-function LocationCard({ event, theme = "communion" }) {
-  const isCommunion = theme === "communion";
+function LocationCard({ event, theme = "wedding" }) {
+  const isWedding = theme === "wedding";
 
-  // 🔥 SAFE LOCATION HANDLING (REAL FIX)
   const locationQuery =
     event?.location ||
     event?.venue ||
@@ -13,36 +12,34 @@ function LocationCard({ event, theme = "communion" }) {
   return (
     <div
       className={`
-        -mt-7 sm:-mt-5
-        ${isCommunion 
-          ? "bg-[#fdfaf4] border border-[#f1e4c8]" 
-          : "bg-white"}
-        rounded-2xl shadow-xl 
+        -mt-8 sm:-mt-10
+        ${
+          isWedding
+            ? "bg-gradient-to-br from-[#faf7f2] via-[#fdfaf6] to-[#f5efe6] border border-[#e8ded0]"
+            : "bg-white"
+        }
+        rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.06)]
         px-6 py-8
         text-center
         transition-all duration-500
-        hover:shadow-2xl hover:-translate-y-1
+        hover:shadow-[0_20px_60px_rgba(0,0,0,0.08)] hover:-translate-y-1
       `}
     >
 
-      {/* TITLE */}
-      <h3 className="text-lg font-heading tracking-wide text-gray-800">
+      <h3 className="text-lg font-heading tracking-wide text-[#3e3e3e]">
         Ceremony
       </h3>
 
-      {/* LOCATION TEXT */}
-      <p className="text-sm text-gray-500 mt-1">
+      <p className="text-sm text-[#7a7a7a] mt-1">
         {locationQuery || "Location will be updated soon"}
       </p>
 
-      {/* PREMIUM DIVIDER */}
       <div className="flex items-center justify-center gap-3 my-4">
-        <span className="h-px w-16 bg-gradient-to-r from-transparent via-[#c89b3c] to-transparent"></span>
-        <span className="text-[#c89b3c] text-sm">✦</span>
-        <span className="h-px w-16 bg-gradient-to-r from-transparent via-[#c89b3c] to-transparent"></span>
+        <span className="h-px w-16 bg-gradient-to-r from-transparent via-[#c8a96a] to-transparent"></span>
+        <span className="text-[#c8a96a] text-sm">✦</span>
+        <span className="h-px w-16 bg-gradient-to-r from-transparent via-[#c8a96a] to-transparent"></span>
       </div>
 
-      {/* BUTTON */}
       <a
         href={
           locationQuery
@@ -57,11 +54,11 @@ function LocationCard({ event, theme = "communion" }) {
           font-medium text-sm
           transition-all duration-300
           ${
-            isCommunion
-              ? "border-[#c89b3c] text-[#c89b3c] hover:bg-[#f6f0e4]"
-              : "border-red-400 text-red-500 hover:bg-red-50"
+            isWedding
+              ? "border-[#d6c3a3] text-[#5a4a2f] bg-white/60 backdrop-blur-sm hover:bg-[#f3ede4]"
+              : "border-gray-300 text-gray-600"
           }
-          hover:scale-[1.02] active:scale-95
+          hover:scale-[1.02]
           ${!locationQuery && "opacity-50 pointer-events-none"}
         `}
       >

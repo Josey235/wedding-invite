@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function InviteCard({ name }) {
+function InviteCard({ name, showGuestTag = false }) {
   const weddingDate = new Date("2026-05-10T11:30");
 
   const [timeLeft, setTimeLeft] = useState(getTimeLeft());
@@ -90,9 +90,11 @@ function InviteCard({ name }) {
           </div>
         </div>
 
-        <p className="text-xs text-gray-400 italic">
-          Invited Guest: <span className="text-gray-600">{name}</span>
-        </p>
+        {showGuestTag && (
+          <p className="text-xs text-gray-400 italic">
+            Invited Guest: <span className="text-gray-600">{name}</span>
+          </p>
+        )}
 
       </div>
     </div>

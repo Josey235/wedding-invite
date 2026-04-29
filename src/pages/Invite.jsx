@@ -73,7 +73,11 @@ function Invite() {
           {eventType === "communion" ? (
             <CommunionInviteCard name={invite.name} event={event} />
           ) : (
-            <WeddingInviteCard name={invite.name} event={event} />
+            <WeddingInviteCard
+              name={invite.name}
+              event={event}
+              showGuestTag={false}
+            />
           )}
         </motion.div>
 
@@ -84,7 +88,7 @@ function Invite() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <RSVPSection invite={invite} setInvite={setInvite} />
+          
         </motion.div>
 
         {/* Location */}
