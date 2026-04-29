@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import girl from "../../assets/communion.png";
+import girl from "../../assets/communion.jpeg";
 import fog from "../../assets/fog.png";
 import BlessingAnimation from "./BlessingAnimation";
 
