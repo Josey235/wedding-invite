@@ -12,7 +12,7 @@ function LocationCard({ event, theme = "wedding" }) {
   return (
     <div
       className={`
-        -mt-8 sm:-mt-10
+        -mt-6 sm:-mt-8
         ${
           isWedding
             ? "bg-gradient-to-br from-[#faf7f2] via-[#fdfaf6] to-[#f5efe6] border border-[#e8ded0]"
