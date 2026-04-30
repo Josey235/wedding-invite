@@ -8,6 +8,7 @@ import CommunionInviteCard from "../components/communion/CommunionInviteCard";
 import RSVPSection from "../components/shared/RSVPSection";
 import LocationCard from "../components/shared/LocationCard";
 import Petals from "../components/wedding/Petals";
+import CommunionRSVPSection from "../components/communion/CommunionRsvp";
 
 function Invite() {
   const { slug } = useParams();
@@ -88,7 +89,11 @@ function Invite() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          
+          {eventType === "communion" ? (
+            <CommunionRSVPSection invite={invite} setInvite={setInvite} />
+          ) : (
+            <RSVPSection invite={invite} setInvite={setInvite} />
+          )}
         </motion.div>
 
         {/* Location */}

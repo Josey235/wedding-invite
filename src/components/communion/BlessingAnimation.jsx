@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import petalImg from "../../assets/petal.png";
 
-export default function Petals() {
+function Petals() {
   const [petals, setPetals] = useState([]);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function Petals() {
             left: `${p.left}%`,
             width: `${p.size}px`,
             top: "-60px",
-            opacity: p.opacity * 0.6, // softened visibility
+            opacity: p.opacity * 0.6,
             transform: `rotate(${p.rotation}deg)`,
             filter: `blur(${p.blur}px) brightness(1.1)`,
             animationDuration: `${p.duration}s`,
@@ -42,7 +42,7 @@ export default function Petals() {
       ))}
     </div>
   );
-}import { useMemo } from "react";
+}
 
 function BlessingAnimation() {
   const petals = useMemo(() => {
@@ -54,17 +54,12 @@ function BlessingAnimation() {
       return {
         id: i,
         left: Math.random() * 100,
-
         size: 24 + depth * 32,
         duration: 8 + depth * 8,
         delay: Math.random() * 3,
         drift: (Math.random() - 0.5) * 30,
-
         opacity: 0.7 + depth * 0.3,
-
         blur: depth > 0.6 ? 1 : depth > 0.3 ? 0.5 : 0,
-
-        // slight rotation variation (adds realism)
         rotate: Math.random() * 360,
       };
     });
@@ -82,14 +77,10 @@ function BlessingAnimation() {
             height: `${p.size}px`,
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
-
             backgroundImage: `url('/petal.png')`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
-
             opacity: p.opacity,
-
-            // 🔥 GOLDEN TRANSFORMATION
             filter: `
               sepia(0.8)
               saturate(1.5)
@@ -97,13 +88,8 @@ function BlessingAnimation() {
               brightness(1.1)
               blur(${p.blur}px)
             `,
-
-            // ✨ soft glow effect
             boxShadow: "0 0 12px rgba(200,169,106,0.25)",
-
             transform: `translateX(${p.drift}px) rotate(${p.rotate}deg)`,
-
-            // 🌟 blend into background (premium feel)
             mixBlendMode: "multiply",
           }}
         />
