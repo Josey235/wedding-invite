@@ -11,7 +11,7 @@ import Petals from "../components/wedding/Petals";
 import CommunionRSVPSection from "../components/communion/CommunionRsvp";
 
 function Invite() {
-  const { slug } = useParams();
+  const { slug, eventId } = useParams();
 
   const [invite, setInvite] = useState(null);
   const [event, setEvent] = useState(null);
@@ -19,21 +19,32 @@ function Invite() {
 
   useEffect(() => {
     fetchInvite();
-  }, [slug]);
+  }, [slug, eventId]);
 
   async function fetchInvite() {
+    if (eventId) {
+      const { data, error } = await supabase
+        .from("events")
+        .select("*")
+        .eq("id", eventId)
+        .single();
+
+      if (!error) {
+        setEvent(data);
+        setInvite(null);
+      }
+
+      setLoading(false);
+      return;
+    }
+
     const { data, error } = await supabase
       .from("invitees")
-      .select(`
-        *,
-        events:event_id (*)
-      `)
+      .select(`*, events:event_id (*)`)
       .eq("slug", slug)
       .single();
 
-    if (error) {
-      console.error("ERROR 👉", error);
-    } else {
+    if (!error) {
       setInvite(data);
       setEvent(data?.events);
     }
@@ -42,7 +53,7 @@ function Invite() {
   }
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
-  if (!invite) return <p className="text-center mt-10">Invite not found</p>;
+  if (!event) return <p className="text-center mt-10">Invite not found</p>;
 
   const eventType = event?.event_type?.toLowerCase();
   const isWedding = eventType === "wedding";
@@ -52,7 +63,6 @@ function Invite() {
 
       {isWedding && <Petals />}
 
-      {/* 🔥 FIXED RESPONSIVE CONTAINER */}
       <motion.div
         className="relative z-10 w-full 
                    px-3 sm:px-4 
@@ -64,7 +74,6 @@ function Invite() {
         transition={{ duration: 0.8 }}
       >
 
-        {/* Invite Card */}
         <motion.div
           className="w-full"
           initial={{ opacity: 0, scale: 0.95 }}
@@ -72,31 +81,31 @@ function Invite() {
           transition={{ delay: 0.2 }}
         >
           {eventType === "communion" ? (
-            <CommunionInviteCard name={invite.name} event={event} />
+            <CommunionInviteCard name={invite?.name || ""} event={event} />
           ) : (
             <WeddingInviteCard
-              name={invite.name}
+              name={invite?.name}
               event={event}
-              showGuestTag={false}
+              showGuestTag={!!invite}
             />
           )}
         </motion.div>
 
-        {/* RSVP */}
-        <motion.div
-          className="w-full"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
-          {eventType === "communion" ? (
-            <CommunionRSVPSection invite={invite} setInvite={setInvite} />
-          ) : (
-            <RSVPSection invite={invite} setInvite={setInvite} />
-          )}
-        </motion.div>
+        {invite && (
+          <motion.div
+            className="w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            {eventType === "communion" ? (
+              <CommunionRSVPSection invite={invite} setInvite={setInvite} />
+            ) : (
+              <RSVPSection invite={invite} setInvite={setInvite} />
+            )}
+          </motion.div>
+        )}
 
-        {/* Location */}
         <motion.div
           className="w-full"
           initial={{ opacity: 0, y: 20 }}

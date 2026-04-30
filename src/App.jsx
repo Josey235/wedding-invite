@@ -20,6 +20,9 @@ function App() {
         {/* Dashboard */}
         <Route path="/dashboard/:eventId" element={<Dashboard />} />
 
+        {/* 🔥 ADD THIS (COMMON INVITE ROUTE) */}
+        <Route path="/invite/event/:eventId" element={<Invite />} />
+
         {/* Invite */}
         <Route path="/invite/:slug" element={<Invite />} />
 

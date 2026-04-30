@@ -8,7 +8,7 @@ function CommunionInviteCard({ name, event }) {
   const [timeLeft, setTimeLeft] = useState({});
   const [searchParams] = useSearchParams();
 
-  const showGuestTag = searchParams.get("mode") !== "group";
+  const showGuestTag = !!name && searchParams.get("mode") !== "group";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -31,7 +31,6 @@ function CommunionInviteCard({ name, event }) {
 
   return (
     <div className="w-full max-w-lg mx-auto px-3">
-
       <div className="relative rounded-[28px] overflow-hidden shadow-xl bg-white">
 
         <BlessingAnimation />
@@ -50,19 +49,11 @@ function CommunionInviteCard({ name, event }) {
               />
             </div>
 
-            <div className="absolute left-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">
-              ✝
-            </div>
-
-            <div className="absolute right-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">
-              ✝
-            </div>
+            <div className="absolute left-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">✝</div>
+            <div className="absolute right-4 top-10 text-[#c89b3c] text-[26px] animate-pulse">✝</div>
 
             <div className="relative z-10 flex flex-col items-center pt-10">
-
-              <p className="text-[10px] tracking-[0.5em] text-gray-700 mb-1">
-                FIRST HOLY
-              </p>
+              <p className="text-[10px] tracking-[0.5em] text-gray-700 mb-1">FIRST HOLY</p>
 
               <h1 className="
                 text-[44px]
@@ -77,13 +68,11 @@ function CommunionInviteCard({ name, event }) {
               ">
                 Communion
               </h1>
-
             </div>
           </div>
         </div>
 
         <div className="relative -mt-20 px-4 pb-6">
-
           <div className="
             bg-[#fdfaf4]
             rounded-t-[60px]
@@ -97,22 +86,13 @@ function CommunionInviteCard({ name, event }) {
               “This is my body given for you; do this in remembrance of me.”
             </p>
 
-            <p className="text-xs text-gray-400 mt-1">
-              Luke 22:19
-            </p>
+            <p className="text-xs text-gray-400 mt-1">Luke 22:19</p>
 
             <h2 className="text-[22px] font-serif text-gray-800 tracking-wide mt-4">
               {event?.child_name}
             </h2>
 
-            <p className="
-              mt-3
-              text-[20px]
-              font-[Parisienne]
-              text-[#b8964c]
-              leading-relaxed
-              tracking-wide
-            ">
+            <p className="mt-3 text-[20px] font-[Parisienne] text-[#b8964c] leading-relaxed tracking-wide">
               We invite you to join our daughter’s First Holy Communion
             </p>
 
@@ -133,7 +113,6 @@ function CommunionInviteCard({ name, event }) {
               <div className="w-[1px] h-10 bg-[#e5d3a5] animate-divider"></div>
 
               <div className="flex flex-col items-center px-4">
-
                 <p className="text-[10px] tracking-widest text-gray-400 uppercase">
                   {new Date(event?.event_date).toLocaleDateString("en-US", { month: "long" })}
                 </p>
@@ -145,15 +124,12 @@ function CommunionInviteCard({ name, event }) {
                 <p className="text-[10px] text-gray-400">
                   {new Date(event?.event_date).getFullYear()}
                 </p>
-
               </div>
 
               <div className="w-[1px] h-10 bg-[#e5d3a5] animate-divider"></div>
 
               <div className="flex-1">
-                <p className="text-[10px] tracking-widest text-gray-400 uppercase">
-                  At
-                </p>
+                <p className="text-[10px] tracking-widest text-gray-400 uppercase">At</p>
 
                 <p className="text-sm text-gray-700">
                   {new Date(event?.event_date).toLocaleTimeString("en-US", {
@@ -162,23 +138,14 @@ function CommunionInviteCard({ name, event }) {
                     hour12: true,
                   })}
                 </p>
-
               </div>
-
             </div>
 
             <div className="grid grid-cols-4 gap-2 mb-4">
               {["days", "hours", "mins", "secs"].map((unit, i) => (
-                <div
-                  key={i}
-                  className="bg-white border border-[#efe3c8] rounded-lg py-2 shadow-sm"
-                >
-                  <p className="text-sm font-semibold">
-                    {timeLeft[unit] ?? "0"}
-                  </p>
-                  <p className="text-xs text-gray-400 capitalize">
-                    {unit}
-                  </p>
+                <div key={i} className="bg-white border border-[#efe3c8] rounded-lg py-2 shadow-sm">
+                  <p className="text-sm font-semibold">{timeLeft[unit] ?? "0"}</p>
+                  <p className="text-xs text-gray-400 capitalize">{unit}</p>
                 </div>
               ))}
             </div>
@@ -192,24 +159,6 @@ function CommunionInviteCard({ name, event }) {
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes shine {
-          0% { background-position: 0% center; }
-          100% { background-position: 200% center; }
-        }
-
-        @keyframes dividerGlow {
-          0% { opacity: 0.6; transform: scaleX(0.9); }
-          50% { opacity: 1; transform: scaleX(1); }
-          100% { opacity: 0.6; transform: scaleX(0.9); }
-        }
-
-        .animate-divider {
-          animation: dividerGlow 3s ease-in-out infinite;
-        }
-      `}</style>
-
     </div>
   );
 }

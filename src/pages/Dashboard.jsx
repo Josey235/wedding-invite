@@ -73,14 +73,12 @@ function Dashboard() {
     fetchGuests();
   };
 
-  // ✅ PERSONAL LINK
   const copyLink = (slug) => {
     const url = `${window.location.origin}/invite/${slug}`;
     navigator.clipboard.writeText(url);
     alert("Personal link copied!");
   };
 
-  // ✅ GROUP LINK
   const copyGroupLink = (slug) => {
     const url = `${window.location.origin}/invite/${slug}?mode=group`;
     navigator.clipboard.writeText(url);
@@ -107,9 +105,23 @@ function Dashboard() {
         Admin Dashboard
       </h1>
 
-      <p className="text-center text-sm text-gray-500 mb-4">
+      <p className="text-center text-sm text-gray-500 mb-2">
         Event ID: {eventId}
       </p>
+
+      {/* ✅ CORRECT PLACEMENT */}
+      <div className="text-center mb-4">
+        <button
+          onClick={() =>
+            navigator.clipboard.writeText(
+              `${window.location.origin}/invite/event/${eventId}`
+            )
+          }
+          className="bg-purple-600 text-white px-4 py-2 rounded"
+        >
+          Copy Common Invite Link
+        </button>
+      </div>
 
       {/* STATS */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-6">
