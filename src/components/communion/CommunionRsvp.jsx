@@ -34,7 +34,7 @@ function CommunionRSVPSection({ invite, setInvite }) {
   return (
     <div
       className="
-        -mt-1 sm:-mt-2
+        -mt-3 sm:-mt-4
         bg-gradient-to-br from-[#faf7f2] via-[#fdfaf6] to-[#f5efe6]
         border border-[#e8ded0]
         rounded-3xl
