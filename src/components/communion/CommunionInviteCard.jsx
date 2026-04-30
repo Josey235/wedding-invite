@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import girl from "../../assets/communion.jpeg";
 import fog from "../../assets/fog.png";
 import BlessingAnimation from "./BlessingAnimation";
 
 function CommunionInviteCard({ name, event }) {
   const [timeLeft, setTimeLeft] = useState({});
+  const [searchParams] = useSearchParams();
+
+  const showGuestTag = searchParams.get("mode") !== "group";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,10 +34,8 @@ function CommunionInviteCard({ name, event }) {
 
       <div className="relative rounded-[28px] overflow-hidden shadow-xl bg-white">
 
-        {/* ✅ THIS WAS MISSING — CORE FIX */}
         <BlessingAnimation />
 
-        {/* IMAGE */}
         <div className="relative aspect-[3/4] overflow-hidden">
           <img src={girl} className="w-full h-full object-cover" />
 
@@ -181,9 +183,11 @@ function CommunionInviteCard({ name, event }) {
               ))}
             </div>
 
-            <p className="text-sm text-gray-400 italic">
-              Invited Guest: {name}
-            </p>
+            {showGuestTag && (
+              <p className="text-sm text-gray-400 italic">
+                Invited Guest: {name}
+              </p>
+            )}
 
           </div>
         </div>

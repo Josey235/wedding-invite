@@ -3,17 +3,16 @@ import { useParams } from "react-router-dom";
 import { supabase } from "../supabase";
 
 function Dashboard() {
-  const { eventId } = useParams(); // 🔥 IMPORTANT
+  const { eventId } = useParams();
 
   const [name, setName] = useState("");
   const [guests, setGuests] = useState([]);
 
-  // 🔥 Fetch guests (FILTERED)
   const fetchGuests = async () => {
     const { data, error } = await supabase
       .from("invitees")
       .select("*")
-      .eq("event_id", eventId) // ✅ FILTER
+      .eq("event_id", eventId)
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -47,7 +46,6 @@ function Dashboard() {
     return () => supabase.removeChannel(channel);
   }, [eventId]);
 
-  // 🔥 Create invite (NOW LINKED TO EVENT)
   const createInvite = async () => {
     if (!name.trim()) return alert("Enter a name");
 
@@ -60,7 +58,7 @@ function Dashboard() {
         slug,
         rsvp: null,
         guest_count: 0,
-        event_id: eventId, // ✅ CRITICAL FIX
+        event_id: eventId,
       },
     ]);
 
@@ -75,19 +73,24 @@ function Dashboard() {
     fetchGuests();
   };
 
-  // 🔥 Copy link
+  // ✅ PERSONAL LINK
   const copyLink = (slug) => {
     const url = `${window.location.origin}/invite/${slug}`;
     navigator.clipboard.writeText(url);
-    alert("Link copied!");
+    alert("Personal link copied!");
   };
 
-  // 🔥 Open link
+  // ✅ GROUP LINK
+  const copyGroupLink = (slug) => {
+    const url = `${window.location.origin}/invite/${slug}?mode=group`;
+    navigator.clipboard.writeText(url);
+    alert("Group link copied!");
+  };
+
   const openInvite = (slug) => {
     window.open(`/invite/${slug}`, "_blank");
   };
 
-  // 🔥 Stats (ALREADY FILTERED)
   const totalGuests = guests.length;
   const attending = guests.filter((g) => g.rsvp === "attending");
   const declined = guests.filter((g) => g.rsvp === "declined");
@@ -104,7 +107,6 @@ function Dashboard() {
         Admin Dashboard
       </h1>
 
-      {/* EVENT INFO */}
       <p className="text-center text-sm text-gray-500 mb-4">
         Event ID: {eventId}
       </p>
@@ -190,7 +192,7 @@ function Dashboard() {
 
                 <td>{g.guest_count || 0}</td>
 
-                <td className="flex gap-2 py-2">
+                <td className="flex gap-2 py-2 flex-wrap">
                   <button
                     onClick={() => openInvite(g.slug)}
                     className="bg-green-500 text-white px-3 py-1 rounded"
@@ -202,7 +204,14 @@ function Dashboard() {
                     onClick={() => copyLink(g.slug)}
                     className="bg-blue-500 text-white px-3 py-1 rounded"
                   >
-                    Copy
+                    Copy Personal
+                  </button>
+
+                  <button
+                    onClick={() => copyGroupLink(g.slug)}
+                    className="bg-purple-500 text-white px-3 py-1 rounded"
+                  >
+                    Copy Group
                   </button>
                 </td>
               </tr>
