@@ -73,16 +73,30 @@ function Dashboard() {
     fetchGuests();
   };
 
+  // ✅ PERSONAL LINK
   const copyLink = (slug) => {
     const url = `${window.location.origin}/invite/${slug}`;
     navigator.clipboard.writeText(url);
     alert("Personal link copied!");
   };
 
+  // ✅ GROUP LINK
   const copyGroupLink = (slug) => {
     const url = `${window.location.origin}/invite/${slug}?mode=group`;
     navigator.clipboard.writeText(url);
     alert("Group link copied!");
+  };
+
+  // 🔥 FIXED COMMON LINK (WITH FEEDBACK)
+  const copyCommonLink = async () => {
+    try {
+      const url = `${window.location.origin}/invite/event/${eventId}`;
+      await navigator.clipboard.writeText(url);
+      alert("Common invite link copied!");
+    } catch (err) {
+      console.error("Clipboard error:", err);
+      alert("Failed to copy link");
+    }
   };
 
   const openInvite = (slug) => {
@@ -109,14 +123,10 @@ function Dashboard() {
         Event ID: {eventId}
       </p>
 
-      {/* ✅ CORRECT PLACEMENT */}
+      {/* 🔥 COMMON LINK BUTTON */}
       <div className="text-center mb-4">
         <button
-          onClick={() =>
-            navigator.clipboard.writeText(
-              `${window.location.origin}/invite/event/${eventId}`
-            )
-          }
+          onClick={copyCommonLink}
           className="bg-purple-600 text-white px-4 py-2 rounded"
         >
           Copy Common Invite Link
