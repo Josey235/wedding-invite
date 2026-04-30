@@ -34,24 +34,25 @@ function CommunionRSVPSection({ invite, setInvite }) {
   return (
     <div
       className="
-        -mt-2 sm:-mt-4
-        bg-gradient-to-br from-[#f8fbff] via-[#f1f6fb] to-[#eef4fa]
-        border border-[#dbe7f3]
-        rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.05)]
-        px-5 sm:px-8
-        py-7 sm:py-9
-        space-y-5
+        mt-0
+        bg-gradient-to-br from-[#faf7f2] via-[#fdfaf6] to-[#f5efe6]
+        border border-[#e8ded0]
+        rounded-3xl
+        shadow-[0_15px_50px_rgba(0,0,0,0.06)]
+        px-6 sm:px-10
+        py-8 sm:py-10
+        space-y-6
         transition-all duration-500
-        hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)]
+        hover:shadow-[0_25px_70px_rgba(0,0,0,0.08)]
       "
     >
 
-      <h2 className="uppercase tracking-[0.2em] text-xs text-center text-[#5b7fa3]">
-        Your Presence Matters
+      <h2 className="uppercase tracking-[0.25em] text-xs text-center text-[#bfa46f]">
+        WILL YOU ATTEND?
       </h2>
 
       {success && (
-        <div className="text-center text-sm text-green-600 animate-fadeIn">
+        <div className="text-center text-sm text-[#6b8e23] animate-fadeIn">
           ✔ Response saved successfully
         </div>
       )}
@@ -63,15 +64,16 @@ function CommunionRSVPSection({ invite, setInvite }) {
           w-full py-3 rounded-full border
           transition-all duration-300
           font-medium
+          backdrop-blur-sm
           transform hover:scale-[1.02] active:scale-95
           ${
             status === "attending"
-              ? "border-[#5b7fa3] text-[#5b7fa3] shadow-sm bg-white"
-              : "border-[#dbe7f3] text-gray-600 hover:border-[#5b7fa3]"
+              ? "border-[#c8a96a] text-[#5a4a2f] bg-white/70 shadow-sm"
+              : "border-[#e8ded0] text-[#6b6b6b] hover:border-[#c8a96a]"
           }
         `}
       >
-        ✨ Joyfully attending
+        ✔ Yes, with joy!
       </button>
 
       {/* NO */}
@@ -81,21 +83,22 @@ function CommunionRSVPSection({ invite, setInvite }) {
           w-full py-3 rounded-full border
           transition-all duration-300
           font-medium
+          backdrop-blur-sm
           transform hover:scale-[1.02] active:scale-95
           ${
             status === "declined"
-              ? "border-[#5b7fa3] text-[#5b7fa3]"
-              : "border-[#dbe7f3] text-gray-400 hover:border-[#5b7fa3]"
+              ? "border-[#c8a96a] text-[#5a4a2f]"
+              : "border-[#e8ded0] text-gray-400 hover:border-[#c8a96a]"
           }
         `}
       >
-        🙏 Unable to attend
+        ✖ Sorry, I can’t make it
       </button>
 
       {status === "attending" && (
         <div className="space-y-4 animate-fadeIn">
 
-          <p className="text-sm text-gray-500 text-center">
+          <p className="text-sm text-[#7a7a7a] text-center">
             Number of guests
           </p>
 
@@ -103,16 +106,18 @@ function CommunionRSVPSection({ invite, setInvite }) {
 
             <button
               onClick={() => setGuests(Math.max(1, guests - 1))}
-              className="w-10 h-10 rounded-full border border-[#dbe7f3] text-lg"
+              className="w-10 h-10 rounded-full border border-[#e8ded0] text-lg text-[#5a4a2f]"
             >
               −
             </button>
 
-            <span className="text-xl font-semibold">{guests}</span>
+            <span className="text-xl font-semibold text-[#3e3e3e]">
+              {guests}
+            </span>
 
             <button
               onClick={() => setGuests(guests + 1)}
-              className="w-10 h-10 rounded-full border border-[#dbe7f3] text-lg"
+              className="w-10 h-10 rounded-full border border-[#e8ded0] text-lg text-[#5a4a2f]"
             >
               +
             </button>
@@ -127,7 +132,7 @@ function CommunionRSVPSection({ invite, setInvite }) {
               ${
                 loading
                   ? "bg-gray-300"
-                  : "bg-[#5b7fa3] text-white hover:shadow-md"
+                  : "bg-[#c8a96a] text-white hover:shadow-md"
               }
             `}
           >
@@ -138,20 +143,21 @@ function CommunionRSVPSection({ invite, setInvite }) {
       )}
 
       {status === "declined" && (
-        <div className="bg-white border border-[#dbe7f3] p-5 rounded-xl space-y-4 animate-fadeIn">
+        <div className="bg-white/70 backdrop-blur-md border border-[#e8ded0] p-5 rounded-2xl space-y-4 animate-fadeIn">
 
-          <h3 className="text-lg text-gray-700 text-center">
-            You’ll Be Missed
+          <h3 className="text-lg text-[#3e3e3e] text-center">
+            We’ll Miss You 💔
           </h3>
 
-          <p className="text-sm text-gray-500 italic text-center">
-            Your blessings mean a lot, even if you can’t be there in person.
+          <p className="text-sm text-[#7a7a7a] italic text-center">
+            Thank you for letting us know. Though you won’t be with us in person,
+            you’ll be in our hearts as we celebrate this special day.
           </p>
 
           <button
             onClick={() => updateRSVP("declined")}
             disabled={loading}
-            className="w-full py-3 rounded-full border border-[#5b7fa3] text-[#5b7fa3]"
+            className="w-full py-3 rounded-full border border-[#c8a96a] text-[#5a4a2f]"
           >
             {loading ? "Saving..." : "Confirm Response"}
           </button>
@@ -160,7 +166,7 @@ function CommunionRSVPSection({ invite, setInvite }) {
             onClick={() => setStatus(null)}
             className="w-full text-sm text-gray-400 underline text-center"
           >
-            Change my response
+            Change my mind — I’ll attend
           </button>
         </div>
       )}
