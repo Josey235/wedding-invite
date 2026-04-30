@@ -74,6 +74,7 @@ function Invite() {
         transition={{ duration: 0.8 }}
       >
 
+        {/* Invite Card */}
         <motion.div
           className="w-full"
           initial={{ opacity: 0, scale: 0.95 }}
@@ -86,26 +87,24 @@ function Invite() {
             <WeddingInviteCard
               name={invite?.name}
               event={event}
-              showGuestTag={!!invite}
+              showGuestTag={false}
             />
           )}
         </motion.div>
 
-        {invite && (
+        {/* ❌ REMOVE RSVP FOR WEDDING */}
+        {invite && eventType === "communion" && (
           <motion.div
             className="w-full"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            {eventType === "communion" ? (
-              <CommunionRSVPSection invite={invite} setInvite={setInvite} />
-            ) : (
-              <RSVPSection invite={invite} setInvite={setInvite} />
-            )}
+            <CommunionRSVPSection invite={invite} setInvite={setInvite} />
           </motion.div>
         )}
 
+        {/* Location */}
         <motion.div
           className="w-full"
           initial={{ opacity: 0, y: 20 }}
