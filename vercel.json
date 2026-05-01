@@ -1,5 +1,16 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "routes": [
+    {
+      "src": "/invite/wedding/.*",
+      "dest": "/wedding.html"
+    },
+    {
+      "src": "/invite/communion/.*",
+      "dest": "/communion.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
